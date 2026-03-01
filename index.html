@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFM - Espaço Físico de UAN</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'rfm-dark': '#023047',    /* Azul Escuro */
+                        'rfm-yellow': '#ffb703',  /* Amarelo */
+                        'rfm-orange': '#fb8500',  /* Laranja */
+                        'rfm-blue': '#219ebc',    /* Azul Médio */
+                        'rfm-light': '#8ecae6',   /* Azul Claro */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .bg-gradient-primary { background: linear-gradient(135deg, #023047 0%, #219ebc 100%); }
+        .bg-gradient-accent { background: linear-gradient(135deg, #fb8500 0%, #ffb703 100%); }
+        .text-gradient { background: linear-gradient(135deg, #fb8500 0%, #ffb703 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Oculta scrollbar mas mantém funcionalidade */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .section-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .section-content.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .blueprint-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .blueprint-card:hover {
+            transform: translateY(-5px);
+            border-color: #219ebc;
+            box-shadow: 0 10px 25px rgba(33, 158, 188, 0.2);
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-800">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden fixed top-0 w-full bg-rfm-dark text-white z-50 flex justify-between items-center p-4 shadow-md">
+        <h1 class="font-bold text-lg">RFM <span class="text-rfm-yellow">UAN</span></h1>
+        <button id="mobileMenuBtn" class="text-white hover:text-rfm-yellow">
+            <i data-lucide="menu"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-rfm-dark text-white w-72 flex-shrink-0 h-full flex flex-col transition-transform duration-300 absolute md:relative z-40 transform -translate-x-full md:translate-x-0 pt-16 md:pt-0">
+        <div class="p-6 bg-gradient-primary border-b border-rfm-blue/30 hidden md:block">
+            <h1 class="text-2xl font-bold text-white tracking-wide">RFM</h1>
+            <p class="text-xs text-rfm-light font-medium uppercase tracking-widest mt-1">Espaço Físico de UAN</p>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto no-scrollbar py-4 px-3 space-y-1">
+            <button onclick="switchTab('intro')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 bg-rfm-blue/20 text-rfm-yellow" data-target="intro">
+                <i data-lucide="home" class="w-5 h-5"></i> Início & Segmentos
+            </button>
+            <button onclick="switchTab('consultoria')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="consultoria">
+                <i data-lucide="search" class="w-5 h-5"></i> Consultar Estrutura Física
+            </button>
+            <button onclick="switchTab('porte')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="porte">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Porte da UAN
+            </button>
+            <button onclick="switchTab('equipe')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="equipe">
+                <i data-lucide="users" class="w-5 h-5"></i> Equipe de Planejamento
+            </button>
+            <button onclick="switchTab('cardapio')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="cardapio">
+                <i data-lucide="book-open" class="w-5 h-5"></i> Análise do Cardápio
+            </button>
+            <button onclick="switchTab('processos')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="processos">
+                <i data-lucide="settings" class="w-5 h-5"></i> Processos & Equipamentos
+            </button>
+            <button onclick="switchTab('demanda')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="demanda">
+                <i data-lucide="trending-up" class="w-5 h-5"></i> Demanda Prevista
+            </button>
+            <button onclick="switchTab('ambiencia')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="ambiencia">
+                <i data-lucide="sun" class="w-5 h-5"></i> Área & Ambiência
+            </button>
+            <button onclick="switchTab('fluxograma')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="fluxograma">
+                <i data-lucide="git-merge" class="w-5 h-5"></i> Fluxograma Ideal
+            </button>
+            <button onclick="switchTab('residuos')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="residuos">
+                <i data-lucide="trash-2" class="w-5 h-5"></i> Rota de Resíduos
+            </button>
+            <button onclick="switchTab('estacoes')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="estacoes">
+                <i data-lucide="layout" class="w-5 h-5"></i> Áreas / Estações
+            </button>
+            <button onclick="switchTab('orcamento')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="orcamento">
+                <i data-lucide="dollar-sign" class="w-5 h-5"></i> Orçamento
+            </button>
+
+            <!-- Botão de Gerar Relatório -->
+            <button onclick="gerarRelatorio()" class="w-full flex items-center justify-center gap-2 px-4 py-3 mt-6 rounded-lg text-sm font-bold bg-rfm-yellow text-rfm-dark hover:bg-rfm-orange hover:text-white transition-colors shadow-lg">
+                <i data-lucide="printer" class="w-5 h-5"></i> Imprimir Relatório Final
+            </button>
+        </nav>
+        
+        <div class="p-4 bg-rfm-dark border-t border-rfm-blue/30 text-[10px] leading-tight text-rfm-light text-center">
+            Baseado na RDC 216/2004 e 275/2002, Livro gestão de UAN por Edeli Abreu et.al e criado por um nutri Rômulo F. Monteiro <a href="https://www.instagram.com/romulof.monteiro/" target="_blank" class="text-rfm-yellow hover:underline">(@romulof.monteiro)</a>
+        </div>
+    </aside>
+
+    <!-- Overlay mobile -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full bg-slate-50 relative pt-16 md:pt-0 overflow-hidden">
+        
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth" id="mainScrollArea">
+            <div class="max-w-5xl mx-auto">
+
+                <!-- 1. INTRODUÇÃO -->
+                <section id="intro" class="section-content active">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <div class="inline-block bg-rfm-light/30 text-rfm-dark px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+                            Seja Bem-vindo(a) ao seu guia definitivo
+                        </div>
+                        <h2 class="text-4xl font-bold text-rfm-dark mb-4">Construindo a UAN Ideal</h2>
+                        <p class="text-slate-600 leading-relaxed mb-6 text-lg">
+                            Olá! Como especialista em espaço físico de Unidades de Alimentação e Nutrição (UAN), estou aqui para guiar você. 
+                            Qualquer projeto de sucesso começa pelo entendimento das normas (<strong class="text-rfm-blue">RDC nº 216/2004 e RDC nº 275/2002</strong>) e das necessidades específicas do seu negócio.
+                        </p>
+                        
+                        <div class="bg-gradient-primary rounded-xl p-6 text-white shadow-lg mb-8">
+                            <h3 class="text-xl font-semibold mb-4 text-rfm-yellow">Segmentos de UAN (Onde você se encaixa?)</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="text-rfm-yellow flex-shrink-0 mt-0.5"></i>
+                                    <span><strong>Institucional:</strong> Pública ou Privada (Hospitais, Forças Armadas, etc).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="text-rfm-yellow flex-shrink-0 mt-0.5"></i>
+                                    <span><strong>Escolar:</strong> Alimentação e nutrição no ambiente educacional.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="text-rfm-yellow flex-shrink-0 mt-0.5"></i>
+                                    <span><strong>PAT:</strong> Programa de Alimentação do Trabalhador (Refeitórios de empresas).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="text-rfm-yellow flex-shrink-0 mt-0.5"></i>
+                                    <span><strong>Comercial:</strong> Restaurantes, bufê de eventos, lanchonetes, padarias.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. CONSULTORIA INTERATIVA (Dúvidas e Estrutura) -->
+                <section id="consultoria" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-rfm-dark mb-2">Estrutura Física & Normas</h2>
+                            <p class="text-slate-600 mb-6">Tem dúvidas sobre como construir? Você pode buscar não apenas normas, mas também qualquer parte do site (ex: digite 'lixo', 'chefe', etc).</p>
+                            
+                            <!-- Search Bar -->
+                            <div class="relative bg-white shadow-md rounded-xl p-2 flex items-center border border-slate-200 focus-within:border-rfm-blue transition-colors">
+                                <i data-lucide="search" class="text-slate-400 ml-3"></i>
+                                <input type="text" id="searchInput" placeholder="Ex: Qual o tamanho da janela? Ou pesquise um setor..." 
+                                    class="w-full p-3 outline-none text-slate-700 bg-transparent" onkeyup="searchNorms()">
+                            </div>
+                        </div>
+
+                        <!-- Search Results Area -->
+                        <div id="searchResults" class="hidden mb-8 bg-rfm-light/20 p-6 rounded-xl border border-rfm-light">
+                            <h3 class="text-lg font-bold text-rfm-dark mb-4 flex items-center gap-2">
+                                <i data-lucide="info" class="text-rfm-blue"></i> Resultados da sua busca:
+                            </h3>
+                            <div id="resultsContainer" class="space-y-4"></div>
+                        </div>
+
+                        <!-- Interactive Grid (The "Wall/Blueprint") -->
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6" id="blueprintGrid">
+                            <!-- Gerado via JS para facilitar manuntenção futura -->
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. PORTE DA UAN -->
+                <section id="porte" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6 border-b pb-4">Porte da UAN</h2>
+                        <p class="text-slate-600 mb-8">Definir o porte é essencial para dimensionar o espaço físico e a capacidade dos equipamentos.</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="p-6 rounded-xl border-2 border-rfm-light/50 bg-slate-50 hover:border-rfm-blue transition-colors">
+                                <div class="w-12 h-12 bg-rfm-light rounded-full flex items-center justify-center text-rfm-dark mb-4">
+                                    <i data-lucide="coffee"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-rfm-dark mb-2">Pequeno Porte</h3>
+                                <p class="text-slate-600">Até <strong class="text-rfm-orange">500</strong> refeições por dia.</p>
+                            </div>
+                            <div class="p-6 rounded-xl border-2 border-rfm-light/50 bg-slate-50 hover:border-rfm-blue transition-colors">
+                                <div class="w-12 h-12 bg-rfm-blue rounded-full flex items-center justify-center text-white mb-4">
+                                    <i data-lucide="utensils"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-rfm-dark mb-2">Médio Porte</h3>
+                                <p class="text-slate-600">De <strong class="text-rfm-orange">501 a 2.000</strong> refeições por dia.</p>
+                            </div>
+                            <div class="p-6 rounded-xl border-2 border-rfm-light/50 bg-slate-50 hover:border-rfm-blue transition-colors">
+                                <div class="w-12 h-12 bg-rfm-orange rounded-full flex items-center justify-center text-white mb-4">
+                                    <i data-lucide="chef-hat"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-rfm-dark mb-2">Grande Porte</h3>
+                                <p class="text-slate-600">De <strong class="text-rfm-orange">2.001 a 10.000</strong> refeições por dia.</p>
+                            </div>
+                            <div class="p-6 rounded-xl border-2 border-rfm-light/50 bg-slate-50 hover:border-rfm-blue transition-colors">
+                                <div class="w-12 h-12 bg-rfm-dark rounded-full flex items-center justify-center text-white mb-4">
+                                    <i data-lucide="building-2"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-rfm-dark mb-2">Extraporte</h3>
+                                <p class="text-slate-600">Acima de <strong class="text-rfm-orange">10.000</strong> refeições por dia.</p>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. EQUIPE -->
+                <section id="equipe" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Equipe de Planejamento</h2>
+                        <p class="text-slate-600 mb-8">Nenhum projeto de UAN é feito sozinho. O sucesso depende da interdisciplinaridade.</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div class="flex gap-6 items-start bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <div class="bg-rfm-yellow text-rfm-dark p-4 rounded-lg shadow-sm">
+                                    <i data-lucide="apple" class="w-8 h-8"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-rfm-dark mb-2">Nutricionista</h3>
+                                    <p class="text-slate-600">Fornece as informações de funcionamento da UAN com base nos objetivos, cardápio, fluxo operacional e <strong>legislação sanitária</strong> (A espinha dorsal do projeto).</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-6 items-start bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <div class="bg-rfm-blue text-white p-4 rounded-lg shadow-sm">
+                                    <i data-lucide="pencil-ruler" class="w-8 h-8"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-rfm-dark mb-2">Arquiteto</h3>
+                                    <p class="text-slate-600">Responsável pelos projetos de interações dos espaços, volumetria, ambiência, acabamentos adequados às normas e <strong>ergonomia</strong>.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-6 items-start bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <div class="bg-rfm-dark text-white p-4 rounded-lg shadow-sm">
+                                    <i data-lucide="hard-hat" class="w-8 h-8"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-rfm-dark mb-2">Engenheiro</h3>
+                                    <p class="text-slate-600">Garante a viabilidade técnica: projetos de instalações (gás, hidráulica, elétrica, exaustão/climatização) e cálculo estrutural.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Chefe de cozinha e Administradores -->
+                            <div class="flex gap-6 items-start bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <div class="bg-rfm-orange text-white p-4 rounded-lg shadow-sm">
+                                    <i data-lucide="users" class="w-8 h-8"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-rfm-dark mb-2">Chefe de Cozinha e Administradores do Restaurante</h3>
+                                    <p class="text-slate-600">O chefe de cozinha contribui com a expertise da operação culinária e dinâmica de preparos, enquanto os administradores garantem a viabilidade financeira, estratégica e comercial do negócio.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. ANÁLISE DO CARDÁPIO -->
+                <section id="cardapio" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Análise do Cardápio (O Ponto de Partida)</h2>
+                        <p class="text-slate-600 mb-6">Antes de desenhar uma parede, precisamos saber <strong>o que</strong> será feito dentro dela. Este passo é crucial para evitar gastos futuros com reformas.</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mb-8">
+                            <ul class="space-y-3 bg-rfm-light/10 p-5 rounded-lg border border-rfm-light/30">
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-orange"></i> O que será produzido?</li>
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-orange"></i> Quais e quantas refeições?</li>
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-orange"></i> Quais alimentos serão utilizados?</li>
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-orange"></i> Como serão adquiridos e armazenados?</li>
+                            </ul>
+                            <ul class="space-y-3 bg-rfm-light/10 p-5 rounded-lg border border-rfm-light/30">
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-blue"></i> Como serão preparados?</li>
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-blue"></i> Como serão comercializados/distribuídos?</li>
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-blue"></i> Qual o tipo de serviço? (À la carte, Buffet, etc)</li>
+                                <li class="flex items-center gap-2"><i data-lucide="chevron-right" class="text-rfm-blue"></i> Evolução do cardápio no futuro?</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gradient-accent rounded-xl p-6 text-white shadow-md flex gap-4 items-start mb-8">
+                            <i data-lucide="scale" class="w-10 h-10 flex-shrink-0"></i>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Lei 14.016/2020 (Combate ao Desperdício)</h3>
+                                <p class="text-sm opacity-90">
+                                    Esta lei dispõe sobre o combate ao desperdício de alimentos e a doação de excedentes para consumo humano. 
+                                    <strong>Impacto no espaço:</strong> Se a UAN adotar a doação, prever espaço para resfriamento rápido (Blast Chiller) e armazenamento segregado (freezer/geladeira exclusivo para doações) mantendo a segurança sanitária.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. PROCESSOS E EQUIPAMENTOS -->
+                <section id="processos" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Processos & Equipamentos</h2>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-rfm-blue mb-4">Sistemas de Produção Envolvidos</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-slate-100 rounded-full text-slate-700 font-medium text-sm">Cook and Serve</span>
+                                <span class="px-4 py-2 bg-slate-100 rounded-full text-slate-700 font-medium text-sm">Cook and Chill</span>
+                                <span class="px-4 py-2 bg-slate-100 rounded-full text-slate-700 font-medium text-sm">Cook and Freeze</span>
+                                <span class="px-4 py-2 bg-slate-100 rounded-full text-slate-700 font-medium text-sm">Sous Vide</span>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="border border-slate-200 rounded-xl p-6 hover:shadow-md transition">
+                                <h4 class="font-bold text-lg text-rfm-dark mb-3 flex items-center gap-2">
+                                    <i data-lucide="cpu" class="text-rfm-orange"></i> Dimensionamento
+                                </h4>
+                                <p class="text-slate-600 text-sm">
+                                    Quais equipamentos serão necessários? (Fatiar, cortar, grelhar, assar, saltear). 
+                                    <strong>Adequação ao cardápio:</strong> Vai fritar batata? Se não, não ocupe espaço (e orçamento) com fritadeira.
+                                </p>
+                            </div>
+                            <div class="border border-slate-200 rounded-xl p-6 hover:shadow-md transition">
+                                <h4 class="font-bold text-lg text-rfm-dark mb-3 flex items-center gap-2">
+                                    <i data-lucide="move-right" class="text-rfm-orange"></i> Marcha a Vante
+                                </h4>
+                                <p class="text-slate-600 text-sm">
+                                    Boa localização e disposição para evitar cruzamento de fluxo (áreas sujas x áreas limpas). O alimento deve seguir num fluxo contínuo.
+                                </p>
+                            </div>
+                            <div class="border border-slate-200 rounded-xl p-6 hover:shadow-md transition md:col-span-2">
+                                <h4 class="font-bold text-lg text-rfm-dark mb-3 flex items-center gap-2">
+                                    <i data-lucide="bar-chart" class="text-rfm-orange"></i> Produtividade e Investimento
+                                </h4>
+                                <p class="text-slate-600 text-sm">
+                                    A quantidade e capacidade dos equipamentos devem ser adequadas para evitar <strong>gargalos na produção</strong>, sempre respeitando a adequação ao investimento (Orçamento disponível).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. DEMANDA PREVISTA -->
+                <section id="demanda" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Demanda Prevista</h2>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div class="bg-rfm-light/10 p-6 rounded-xl border-l-4 border-rfm-blue">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2">Previsão de Vendas e Produção</h3>
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Quais itens devem vender mais? (Prever equipamentos extras para backup ou alta demanda).</li>
+                                    <li>Quais itens podem impulsionar mais vendas?</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-rfm-light/10 p-6 rounded-xl border-l-4 border-rfm-yellow">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2">Entrega / Distribuição</h3>
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Prever área para presença e rota de entregadores (Delivery).</li>
+                                    <li>Espaço para armazenamento de embalagens térmicas/descartáveis.</li>
+                                    <li>Área para montagem de refeição e expedição.</li>
+                                    <li><strong>Refeições transportadas:</strong> Estacionamento de carrinhos isotérmicos e área para rigoroso controle higiênico-sanitário das caixas térmicas.</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-rfm-light/10 p-6 rounded-xl border-l-4 border-rfm-orange">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2">Área de Consumo (Salão)</h3>
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Dimensionamento de balcões de distribuição (quente/frio).</li>
+                                    <li>Área de circulação para garçons e clientes.</li>
+                                    <li>Disposição de mesas e cadeiras respeitando a ergonomia e rota de fuga.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. AMBIÊNCIA -->
+                <section id="ambiencia" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Área Disponível e Ambiência</h2>
+                        <p class="text-slate-600 mb-8">O conforto do trabalhador e a segurança do alimento dependem diretamente do controle ambiental da UAN.</p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                            <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100">
+                                <i data-lucide="sun" class="w-10 h-10 mx-auto text-rfm-yellow mb-3"></i>
+                                <h4 class="font-bold text-rfm-dark">Iluminação</h4>
+                                <p class="text-xs text-slate-500 mt-2">Natural preferida. Luminárias protegidas contra quedas e explosão.</p>
+                            </div>
+                            <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100">
+                                <i data-lucide="droplets" class="w-10 h-10 mx-auto text-rfm-blue mb-3"></i>
+                                <h4 class="font-bold text-rfm-dark">Umidade</h4>
+                                <p class="text-xs text-slate-500 mt-2">Controle através de boa ventilação e exaustão para evitar mofo e condensação.</p>
+                            </div>
+                            <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100">
+                                <i data-lucide="ear" class="w-10 h-10 mx-auto text-rfm-orange mb-3"></i>
+                                <h4 class="font-bold text-rfm-dark">Acústica</h4>
+                                <p class="text-xs text-slate-500 mt-2">Isolamento de áreas barulhentas (lavagem de panelas, maquinários pesados).</p>
+                            </div>
+                            <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100">
+                                <i data-lucide="wind" class="w-10 h-10 mx-auto text-rfm-blue mb-3"></i>
+                                <h4 class="font-bold text-rfm-dark">Ventilação</h4>
+                                <p class="text-xs text-slate-500 mt-2">Garantir renovação de ar. Fluxo de ar não deve ir da área suja para limpa.</p>
+                            </div>
+                            <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100 md:col-span-2">
+                                <i data-lucide="thermometer-sun" class="w-10 h-10 mx-auto text-rfm-orange mb-3"></i>
+                                <h4 class="font-bold text-rfm-dark">Conforto Térmico</h4>
+                                <p class="text-xs text-slate-500 mt-2">Sistemas de exaustão sobre fontes de calor (fogões/fornos) dimensionados adequadamente para o bem-estar do manipulador e controle de proliferação bacteriana.</p>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. FLUXOGRAMA -->
+                <section id="fluxograma" class="section-content">
+                    <div class="bg-gradient-primary rounded-2xl shadow-lg p-8 text-white mb-8">
+                        <h2 class="text-3xl font-bold mb-6 text-rfm-yellow">O Fluxograma Ideal (RDC 216/2004)</h2>
+                        
+                        <!-- Texto Atualizado Exatamente como Pedido -->
+                        <div class="space-y-4 mb-8 bg-white/10 p-6 rounded-xl border border-white/20 text-sm md:text-base leading-relaxed text-justify">
+                            <p>
+                                O fluxo físico-funcional da Unidade de Alimentação e Nutrição inicia-se no recebimento das matérias-primas, que seguem para armazenamento em estoque seco (estoque neutro) ou estoque refrigerado, conforme a natureza do alimento; em seguida, os gêneros são encaminhados à área de preparo, onde passam pelas etapas de higienização, corte e porcionamento, seguindo para a cocção, após a qual os alimentos são destinados às áreas de pratos quentes ou pratos frios, conforme o tipo de preparação, sendo então encaminhados para o restaurante para distribuição ao cliente; paralelamente, os utensílios utilizados retornam pela área de devolução, seguindo para lavagem de utensílios e lavagem de panelas, enquanto os resíduos gerados durante o processo são direcionados ao tratamento de lixo, garantindo fluxo unidirecional, sem cruzamento entre materiais sujos e limpos, conforme o princípio da marcha à vante.
+                            </p>
+                            <p class="pt-2 border-t border-white/20 mt-4">
+                                <strong class="text-rfm-yellow">Fluxo ou circuito de clientes:</strong> deve ser organizado de forma contínua e lógica, iniciando-se pelo acesso à área de distribuição, seguindo pela linha de serviço para obtenção da refeição, prosseguindo para a área de consumo, e, após o término, direcionando o cliente à devolução de bandejas e utensílios, com saída ordenada do ambiente, preferencialmente conduzindo à área de distribuição de café, quando existente, evitando interferências de circulação e cruzamentos com fluxos de alimentos, materiais sujos e áreas operacionais.
+                            </p>
+                        </div>
+                        
+                        <div class="relative max-w-3xl mx-auto">
+                            <!-- Fluxo Principal -->
+                            <div class="space-y-3 relative z-10">
+                                <div class="bg-white/10 p-4 rounded-lg border border-white/20 backdrop-blur-sm flex items-center gap-4">
+                                    <div class="bg-rfm-yellow text-rfm-dark w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+                                    <div><strong>Recebimento:</strong> Conferência de matérias-primas.</div>
+                                </div>
+                                <div class="flex justify-center"><i data-lucide="arrow-down" class="text-rfm-yellow"></i></div>
+                                
+                                <div class="bg-white/10 p-4 rounded-lg border border-white/20 backdrop-blur-sm flex items-center gap-4">
+                                    <div class="bg-rfm-yellow text-rfm-dark w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
+                                    <div><strong>Armazenamento:</strong> Estoque seco, refrigeração e congelamento.</div>
+                                </div>
+                                <div class="flex justify-center"><i data-lucide="arrow-down" class="text-rfm-yellow"></i></div>
+                                
+                                <div class="bg-white/10 p-4 rounded-lg border border-white/20 backdrop-blur-sm flex items-center gap-4">
+                                    <div class="bg-rfm-yellow text-rfm-dark w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div>
+                                    <div><strong>Pré-preparo:</strong> Áreas específicas (carnes, vegetais, massas).</div>
+                                </div>
+                                <div class="flex justify-center"><i data-lucide="arrow-down" class="text-rfm-yellow"></i></div>
+                                
+                                <div class="bg-white/10 p-4 rounded-lg border border-white/20 backdrop-blur-sm flex items-center gap-4">
+                                    <div class="bg-rfm-yellow text-rfm-dark w-8 h-8 rounded-full flex items-center justify-center font-bold">4</div>
+                                    <div><strong>Preparo / Cocção:</strong> Transformação térmica a frio ou a quente.</div>
+                                </div>
+                                <div class="flex justify-center"><i data-lucide="arrow-down" class="text-rfm-yellow"></i></div>
+                                
+                                <div class="bg-white/10 p-4 rounded-lg border border-white/20 backdrop-blur-sm flex items-center gap-4">
+                                    <div class="bg-rfm-yellow text-rfm-dark w-8 h-8 rounded-full flex items-center justify-center font-bold">5</div>
+                                    <div><strong>Distribuição & Consumo:</strong> Entrega ao cliente final.</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Retornos (Áreas Sujas) -->
+                            <div class="mt-8 pt-6 border-t border-white/20">
+                                <h4 class="text-rfm-yellow font-bold mb-4 flex items-center gap-2"><i data-lucide="rotate-ccw"></i> Fluxos de Retorno (Separados!)</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-red-500/20 p-4 rounded-lg border border-red-500/30">
+                                        <strong>Utensílios:</strong> Retornam por guichê separado direto para a área de higienização.
+                                    </div>
+                                    <div class="bg-red-500/20 p-4 rounded-lg border border-red-500/30">
+                                        <strong>Sobras & Lixo:</strong> Tratadas conforme temperatura. Lixo destinado a área própria por rota exclusiva.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO (Aqui precisa adaptar cores para não contrastar mal) -->
+                        <div class="mt-8 pt-6 border-t border-white/20 bg-white/5 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-white mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-white/30 bg-white/10 text-white rounded-xl focus:ring-2 focus:ring-rfm-yellow outline-none resize-y transition-shadow placeholder-white/50" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-yellow rounded border-white/30 focus:ring-rfm-yellow cursor-pointer">
+                                <label class="font-medium text-white cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 10. RESÍDUOS SÓLIDOS -->
+                <section id="residuos" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Rota de Resíduos Sólidos</h2>
+                        <p class="text-slate-600 mb-6">A gestão de resíduos é crítica para evitar pragas, mau cheiro e contaminação cruzada.</p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-6 mb-8">
+                            <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2 flex items-center gap-2">
+                                    <i data-lucide="recycle" class="text-green-600"></i> Coleta Seletiva
+                                </h3>
+                                <p class="text-sm text-slate-600">Área para separação de recicláveis limpos (papelão, latas, plásticos). Facilita o descarte e pode gerar renda/doação para cooperativas.</p>
+                            </div>
+                            <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2 flex items-center gap-2">
+                                    <i data-lucide="droplet" class="text-yellow-600"></i> Coletor de Óleo Vegetal
+                                </h3>
+                                <p class="text-sm text-slate-600">O óleo usado jamas deve ir para o ralo. Prever área para bombonas bem fechadas e identificadas para coleta por empresa certificada.</p>
+                            </div>
+                            <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2 flex items-center gap-2">
+                                    <i data-lucide="trash" class="text-amber-800"></i> Lixo Orgânico
+                                </h3>
+                                <p class="text-sm text-slate-600">Lixeiras com acionamento por pedal nas áreas de produção. Retirada frequente antes que transbordem.</p>
+                            </div>
+                            <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+                                <h3 class="font-bold text-lg text-rfm-dark mb-2 flex items-center gap-2">
+                                    <i data-lucide="door-closed" class="text-slate-600"></i> Câmara de Lixo
+                                </h3>
+                                <p class="text-sm text-slate-600">Localizada na área externa, isolada da cozinha. Ambiente fechado, revestido de material lavável, com ponto de água, ralo e tela nas aberturas.</p>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 11. ÁREAS / ESTAÇÕES -->
+                <section id="estacoes" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6">Definição das Áreas ou Estações</h2>
+                        <p class="text-slate-600 font-semibold mb-6">Setorização básica de uma UAN:</p>
+                        
+                        <div class="columns-1 md:columns-2 gap-6 space-y-4 text-sm mb-8">
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Setor de Recebimento</h4>
+                                <p class="text-slate-600">Plataforma, balança, área de inspeção, ponto de água para pré-lavagem de embalagens.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Armazenamento (Seco)</h4>
+                                <p class="text-slate-600">Despensa seca e Guarda de Saneantes (rigorosamente separado de alimentos).</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Estocagem refrigerada</h4>
+                                <p class="text-slate-600">Reservada a todos os alimentos perecíveis, como: Hortifrutigranjeiros de 4 a 6ºC; Carnes de 0 a 2ºC; Diversos (laticínios) de 2 a 4º C; congelados de -18 a 22ºC.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Pré-preparo (Vegetais/Legumeria)</h4>
+                                <p class="text-slate-600">Reservado para a lavagem e corte de legumes, tubérculos, verduras e frutas.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Pré-preparo de carnes</h4>
+                                <p class="text-slate-600">Reservado ao corte, tratamento e preparo de cortes em geral. O fluxo não pode cruzar com alimentos prontos.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Confeitaria</h4>
+                                <p class="text-slate-600">Reservado ao pré-preparo e preparo de pratos à base de massas e sobremesas.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Cocção em calor úmido</h4>
+                                <p class="text-slate-600">Efetuada por intermédio de caldeirões, com aquecimento a vapor direto ou autogerador.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Cocção em calor seco</h4>
+                                <p class="text-slate-600">Frituras: assegurada por fritadeiras de imersão ou frigideiras; Assados: fornos ou a ar impulsionado.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Espera para distribuição</h4>
+                                <p class="text-slate-600">Os alimentos preparados permanecem acondicionados em temperatura controlada até o momento da distribuição.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Zona do Cliente</h4>
+                                <p class="text-slate-600">Composta por: recepção, lavabos, restaurante, cafeteria e lanchonete.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Local de higienização e tratamento de lixo</h4>
+                                <p class="text-slate-600">Lavagem de panelas: reservado ao tratamento e higienização dos utensílios de cozinha. Tratamento de utensílios: reservado à higienização dos utensílios utilizados pelos clientes no refeitório. Depósito de lixo: reservado a estocagem do lixo.</p>
+                            </div>
+                            <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
+                                <h4 class="font-bold text-rfm-dark mb-1">Anexos</h4>
+                                <p class="text-slate-600">Sala de administração: reservada ao adm, chefe de cozinha e pessoal da contabilidade. Vestiários e sanitários: exclusivos para os funcionários internos. Áreas técnicas: reservado a instalação de ventilação, transformação de energia e deposito de combustível.</p>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 12. ORÇAMENTO -->
+                <section id="orcamento" class="section-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                        <h2 class="text-3xl font-bold text-rfm-dark mb-6 text-center">Orçamento</h2>
+                        
+                        <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
+                            <div class="bg-green-100 text-green-700 p-6 rounded-full">
+                                <i data-lucide="pie-chart" class="w-16 h-16"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-rfm-dark mb-3">O equilíbrio financeiro do projeto</h3>
+                                <p class="text-slate-600 mb-4">
+                                    O orçamento baliza todas as decisões. É ele quem define se a parede será de cerâmica até o teto ou revestimento epóxi; se a câmara será fria modular ou geladeiras comerciais.
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-700 space-y-1">
+                                    <li>Levantamento de custos de obra civil (pisos, ralos, hidráulica).</li>
+                                    <li>Custos com equipamentos (novos vs. usados reformados).</li>
+                                    <li>Custos com projetos arquitetônicos e aprovação de plantas.</li>
+                                    <li>Reserva técnica para imprevistos (recomendado 15 a 20%).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE RELATÓRIO -->
+                        <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
+                            <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
+                            <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
+                            <div class="flex items-center gap-3 mt-4">
+                                <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
+                                <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer spacer -->
+                <div class="h-20"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Dynamic Content (Norms/Blueprints) -->
+    <div id="normModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform" id="modalContent">
+            <div class="bg-rfm-dark text-white p-5 flex justify-between items-center">
+                <h3 id="modalTitle" class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="book-open"></i> <span id="modalTitleText">Título</span>
+                </h3>
+                <button onclick="closeModal()" class="text-white hover:text-rfm-yellow transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6 max-h-[70vh] overflow-y-auto">
+                <div id="modalBody" class="text-slate-700 leading-relaxed space-y-4">
+                    <!-- Conteúdo dinâmico -->
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-400">
+                    Fonte: RDC nº 216/2004 e RDC nº 275/2002 - ANVISA
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // Inicializa ícones do Lucide
+        lucide.createIcons();
+
+        // Menu Mobile Control
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Sistema de Abas (Navegação)
+        function switchTab(tabId) {
+            // Esconder todas as seções
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remover estado ativo dos botões
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-rfm-blue/20', 'text-rfm-yellow');
+                btn.classList.add('text-rfm-light');
+            });
+
+            // Ativar a seção clicada
+            const targetEl = document.getElementById(tabId);
+            if(targetEl) targetEl.classList.add('active');
+            
+            // Destacar o botão clicado
+            const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-rfm-blue/20', 'text-rfm-yellow');
+                activeBtn.classList.remove('text-rfm-light');
+            }
+
+            // Fechar menu mobile se estiver aberto
+            if (window.innerWidth < 768) {
+                toggleMenu();
+            }
+
+            // Scroll pro topo
+            document.getElementById('mainScrollArea').scrollTop = 0;
+            
+            // Limpar busca caso seja chamado via busca global
+            if(tabId !== 'consultoria') {
+               const searchInput = document.getElementById('searchInput');
+               if(searchInput) {
+                   searchInput.value = '';
+                   document.getElementById('searchResults').classList.add('hidden');
+                   renderGrid(dbNormas);
+               }
+            }
+        }
+
+        // --- SISTEMA DE BUSCA GLOBAL E NORMAS ---
+
+        // Normas e Estruturas Físicas
+        const dbNormas = [
+            {
+                id: 'janelas',
+                titulo: 'Janelas e Aberturas',
+                icone: 'layout-grid',
+                tags: ['janela', 'janelas', 'tela', 'telas', 'abertura', 'ventilação', 'tamanho'],
+                type: 'norm',
+                texto: `
+                    <p><strong>Tamanho da Janela:</strong> Geralmente recomenda-se que a área de iluminação natural corresponda a 1/5 da área do piso. Para ventilação, as aberturas devem ser de no mínimo 1/10 da área do piso.</p>
+                    <p><strong>RDC 216:</strong> As portas e as janelas devem ser mantidas ajustadas aos batentes. As janelas e aberturas externas devem ser providas de <strong>telas milimetradas</strong> (malha 2mm) para impedir o acesso de vetores e pragas urbanas.</p>
+                    <p><strong>Detalhes:</strong> As telas devem ser de fácil remoção para limpeza. Os parapeitos não devem ser utilizados como prateleiras (recomenda-se inclinação para evitar acúmulo de sujeira).</p>
+                `
+            },
+            {
+                id: 'paredes',
+                titulo: 'Paredes e Divisórias',
+                icone: 'columns',
+                tags: ['parede', 'paredes', 'divisória', 'tinta', 'azulejo', 'revestimento', 'lavável', 'cor'],
+                type: 'norm',
+                texto: `
+                    <p><strong>Revestimento:</strong> Devem possuir acabamento liso, impermeável, lavável, de cores claras e isento de fungos e bolores.</p>
+                    <p><strong>RDC 216:</strong> Devem estar conservadas, livres de rachaduras, trincas, goteiras, vazamentos, infiltrações, descascamentos, dentre outros defeitos que possam transmitir contaminantes aos alimentos.</p>
+                    <p><strong>Altura recomendada:</strong> O revestimento impermeável (ex: azulejo ou tinta epóxi) deve ir até o teto. Caso não vá até o teto, no mínimo 2 metros de altura, com pintura lavável acima disso.</p>
+                    <p><strong>Ângulos:</strong> É fortemente recomendado que a junção entre a parede e o piso seja arredondada (meia-cana) para facilitar a higienização.</p>
+                `
+            },
+            {
+                id: 'pisos',
+                titulo: 'Pisos e Ralos',
+                icone: 'grid',
+                tags: ['piso', 'chão', 'ralo', 'ralos', 'esgoto', 'caimento', 'declive', 'antiderrapante'],
+                type: 'norm',
+                texto: `
+                    <p><strong>RDC 216:</strong> O piso deve ser revestido de material liso, antiderrapante, impermeável, lavável, de fácil higienização e resistente ao trânsito e ao uso de produtos de limpeza (ex: porcelanato técnico, piso epóxi, cerâmica extrudada).</p>
+                    <p><strong>Declive e Ralos:</strong> O piso deve ter inclinação suficiente em direção aos ralos, não permitindo o acúmulo de água. Ralos devem ser sifonados (para evitar retorno de odores) e possuir grelhas com sistema de fechamento (escamoteáveis) para impedir a entrada de pragas (baratas/ratos).</p>
+                `
+            },
+            {
+                id: 'tetos',
+                titulo: 'Tetos e Forros',
+                icone: 'monitor-up',
+                tags: ['teto', 'tetos', 'forro', 'forros', 'goteira', 'infiltração', 'laje'],
+                type: 'norm',
+                texto: `
+                    <p><strong>RDC 216:</strong> Os tetos e forros devem ser de acabamento liso, impermeável, lavável, de cores claras e conservados (livres de rachaduras, goteiras, vazamentos, infiltrações ou descascamentos).</p>
+                    <p><strong>Material:</strong> O uso de forro de PVC é comum, mas o ideal em cozinhas quentes é a laje rebocada com pintura epóxi ou forro de material incombustível (placas de gesso acartonado resistente à umidade com pintura lavável). Deve-se evitar vãos que sirvam de abrigo para pragas.</p>
+                `
+            },
+            {
+                id: 'portas',
+                titulo: 'Portas',
+                icone: 'door-open',
+                tags: ['porta', 'portas', 'entrada', 'saída', 'mola', 'fechamento', 'vai-e-vem'],
+                type: 'norm',
+                texto: `
+                    <p><strong>RDC 216:</strong> As portas das áreas de preparação e armazenamento de alimentos devem ser dotadas de fechamento automático (molas, dobradiças vai-e-vem ou sensores).</p>
+                    <p><strong>Material e Conservação:</strong> Devem ter superfície lisa, cores claras, fáceis de limpar. Portas de madeira não são recomendadas em áreas de produção devido à porosidade. Em áreas de recebimento, recomenda-se uso de cortina de ar ou cortina de PVC em tiras.</p>
+                `
+            },
+            {
+                id: 'luminarias',
+                titulo: 'Iluminação / Luminárias',
+                icone: 'lightbulb',
+                tags: ['luz', 'luminária', 'iluminação', 'lâmpada', 'explosão', 'proteção'],
+                type: 'norm',
+                texto: `
+                    <p><strong>RDC 216:</strong> A iluminação da área de preparação deve proporcionar a visualização de forma que as atividades sejam realizadas sem comprometer a higiene e as características sensoriais dos alimentos. As luminárias localizadas sobre a área de preparação dos alimentos devem ser apropriadas e estar protegidas contra explosão e quedas acidentais.</p>
+                    <p><strong>Proteção Obrigatória:</strong> As lâmpadas e luminárias localizadas sobre a área de preparação de alimentos devem estar protegidas contra quedas e explosões (calhas com tampas de acrílico ou policarbonato, ou lâmpadas blindadas).</p>
+                `
+            },
+            {
+                id: 'lavatorios',
+                titulo: 'Pias e Lavatórios Exclusivos',
+                icone: 'droplets',
+                tags: ['pia', 'lavatório', 'mão', 'mãos', 'sabonete', 'papel', 'pedal', 'joelho'],
+                type: 'norm',
+                texto: `
+                    <p><strong>RDC 216 (Lavagem de Mãos):</strong> Devem existir lavatórios exclusivos para a higiene das mãos na área de manipulação, em posições estratégicas em relação ao fluxo de preparo.</p>
+                    <p><strong>Equipamentos Opcionais/Obrigatórios:</strong> Devem possuir sabonete líquido inodoro e antisséptico, toalhas de papel não reciclado e lixeira com acionamento que não demande contato manual (pedal ou sensor).</p>
+                    <p><strong>Acionamento da água:</strong> É recomendável torneiras com acionamento por pedal, joelho, sensor ou cotovelo, para evitar recontaminação das mãos limpas.</p>
+                `
+            },
+            {
+                id: 'tamanho',
+                titulo: 'Tamanho e Dimensionamento Geral',
+                icone: 'ruler',
+                tags: ['tamanho', 'metro', 'espaço', 'dimensionamento', 'área', 'm2'],
+                type: 'norm',
+                texto: `
+                    <p><strong>Como calcular a área da UAN?</strong> Não há uma regra cravada na legislação vigente que dite "X metros quadrados", pois depende dos processos (cook and chill x cook and serve), cardápio e layout.</p>
+                    <p><strong>Parâmetros da Literatura (Mezomo):</strong> Em média, estima-se entre 0,5 a 1,0 m² por refeição fornecida para UANs de médio/grande porte. Mas atenção: UANs comerciais tendem a otimizar este espaço, onde a cozinha representa de 30% a 40% do salão do restaurante.</p>
+                    <p>O foco exigido pela vigilância não é a metragem total exata, mas sim <strong>se a área é suficiente para que o fluxo seja contínuo (marcha a vante) sem contaminação cruzada</strong>.</p>
+                `
+            }
+        ];
+
+        // Seções do site para Busca Global
+        const dbSections = [
+            { id: 'intro', titulo: 'Seção: Início & Segmentos', tags: ['início', 'segmento', 'institucional', 'escolar', 'pat', 'comercial', 'guia'], type: 'section' },
+            { id: 'porte', titulo: 'Seção: Porte da UAN', tags: ['porte', 'tamanho', 'refeições', 'quantidade', 'pequeno', 'médio', 'grande', 'extraporte'], type: 'section' },
+            { id: 'equipe', titulo: 'Seção: Equipe de Planejamento', tags: ['equipe', 'nutricionista', 'arquiteto', 'engenheiro', 'chefe', 'administrador', 'cozinha'], type: 'section' },
+            { id: 'cardapio', titulo: 'Seção: Análise do Cardápio', tags: ['cardápio', 'menu', 'doação', 'desperdício', 'produção', 'lei', 'alimentos'], type: 'section' },
+            { id: 'processos', titulo: 'Seção: Processos & Equipamentos', tags: ['processos', 'equipamentos', 'cook', 'chill', 'freeze', 'marcha', 'produtividade', 'gargalo'], type: 'section' },
+            { id: 'demanda', titulo: 'Seção: Demanda Prevista', tags: ['demanda', 'vendas', 'delivery', 'distribuição', 'consumo', 'salão', 'entrega'], type: 'section' },
+            { id: 'ambiencia', titulo: 'Seção: Área & Ambiência', tags: ['ambiência', 'iluminação', 'umidade', 'acústica', 'ventilação', 'conforto', 'térmico', 'exaustão'], type: 'section' },
+            { id: 'fluxograma', titulo: 'Seção: Fluxograma Ideal', tags: ['fluxograma', 'fluxo', 'unidirecional', 'marcha', 'clientes', 'circuito', 'cruzamento'], type: 'section' },
+            { id: 'residuos', titulo: 'Seção: Rota de Resíduos', tags: ['resíduo', 'lixo', 'reciclagem', 'óleo', 'orgânico', 'câmara', 'coleta', 'seletiva'], type: 'section' },
+            { id: 'estacoes', titulo: 'Seção: Áreas / Estações', tags: ['área', 'estação', 'recebimento', 'armazenamento', 'cocção', 'higienização', 'setor', 'setorização', 'anexos', 'confeitaria'], type: 'section' },
+            { id: 'orcamento', titulo: 'Seção: Orçamento', tags: ['orçamento', 'dinheiro', 'custo', 'investimento', 'financeiro', 'obra', 'técnica'], type: 'section' }
+        ];
+
+        // Combina tudo para a busca
+        const allSearchData = [...dbNormas, ...dbSections];
+
+        // Renderizar Grid Interativo
+        const gridContainer = document.getElementById('blueprintGrid');
+        
+        function renderGrid(items) {
+            gridContainer.innerHTML = '';
+            
+            // Filtra apenas o tipo norm para exibir no blueprint base
+            const normsOnly = items.filter(item => item.type === 'norm');
+
+            if(normsOnly.length === 0) {
+                // Se o grid for mostrar vazio, deixa oculto (a busca lida com os resultados)
+                return;
+            }
+
+            normsOnly.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'blueprint-card bg-white p-6 rounded-xl shadow-sm cursor-pointer flex flex-col items-center justify-center text-center gap-3';
+                card.onclick = () => openModal(item);
+                
+                card.innerHTML = `
+                    <div class="w-14 h-14 bg-rfm-light/30 rounded-full flex items-center justify-center text-rfm-blue group-hover:bg-rfm-blue group-hover:text-white transition-colors">
+                        <i data-lucide="${item.icone}" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="font-bold text-rfm-dark text-sm md:text-base">${item.titulo}</h4>
+                `;
+                gridContainer.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Init normal do Grid
+        renderGrid(dbNormas);
+
+        // Sistema de Busca Global
+        function searchNorms() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsBox = document.getElementById('searchResults');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            if(query.length < 2) {
+                resultsBox.classList.add('hidden');
+                gridContainer.classList.remove('hidden');
+                renderGrid(dbNormas);
+                return;
+            }
+
+            // Oculta grid original durante a pesquisa
+            gridContainer.classList.add('hidden');
+
+            // Filtrar banco (Normas e Seções)
+            const matches = allSearchData.filter(item => {
+                const inTags = item.tags.some(tag => tag.includes(query));
+                const inTitle = item.titulo.toLowerCase().includes(query);
+                const inText = item.texto ? item.texto.toLowerCase().includes(query) : false;
+                return inTags || inTitle || inText;
+            });
+
+            // Atualizar lista de respostas
+            resultsBox.classList.remove('hidden');
+            resultsContainer.innerHTML = '';
+
+            if(matches.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-slate-500">Nenhum resultado encontrado no site ou nas normas. Tente outra palavra-chave.</p>';
+            } else {
+                matches.forEach(item => {
+                    const res = document.createElement('div');
+                    res.className = 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 cursor-pointer hover:border-rfm-blue transition flex items-center justify-between';
+                    
+                    if(item.type === 'norm') {
+                        res.onclick = () => openModal(item);
+                        res.innerHTML = `
+                            <div>
+                                <h4 class="font-bold text-rfm-dark flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-rfm-blue"></i> Norma: ${item.titulo}</h4>
+                                <p class="text-sm text-slate-600 mt-1 truncate">Clique para ler as especificações completas.</p>
+                            </div>
+                            <i data-lucide="chevron-right" class="text-slate-300"></i>
+                        `;
+                    } else {
+                        res.onclick = () => switchTab(item.id);
+                        res.innerHTML = `
+                            <div>
+                                <h4 class="font-bold text-rfm-dark flex items-center gap-2"><i data-lucide="external-link" class="w-4 h-4 text-rfm-orange"></i> ${item.titulo}</h4>
+                                <p class="text-sm text-slate-600 mt-1 truncate">Clique para ir direto para esta seção do projeto.</p>
+                            </div>
+                            <i data-lucide="chevron-right" class="text-slate-300"></i>
+                        `;
+                    }
+                    resultsContainer.appendChild(res);
+                });
+                lucide.createIcons();
+            }
+        }
+
+        // Sistema Modal
+        const modal = document.getElementById('normModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitleText');
+        const modalBody = document.getElementById('modalBody');
+
+        function openModal(itemData) {
+            modalTitle.innerText = itemData.titulo;
+            modalBody.innerHTML = itemData.texto;
+            modal.classList.remove('hidden');
+            
+            // Animação entrada
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Fechar modal clicando fora
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- SISTEMA DE GERAÇÃO DE RELATÓRIO ---
+        
+        // Função de aviso/toast customizada para evitar alert()
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-rfm-dark text-white px-6 py-4 rounded-xl shadow-2xl transform transition-transform duration-300 translate-y-32 z-50 flex items-center gap-3 border border-rfm-blue/30';
+            toast.innerHTML = `<i data-lucide="alert-circle" class="text-rfm-yellow"></i> <span class="font-medium">${message}</span>`;
+            document.body.appendChild(toast);
+            lucide.createIcons();
+            
+            // Animate in
+            setTimeout(() => toast.classList.remove('translate-y-32'), 10);
+            
+            // Remove after 4s
+            setTimeout(() => {
+                toast.classList.add('translate-y-32');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function gerarRelatorio() {
+            let reportHTML = `
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h1 style="color: #023047; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 28px; margin-bottom: 5px;">Relatório de Planejamento da UAN</h1>
+                    <p style="color: #666; font-family: sans-serif; font-size: 14px;">Gerado através do guia RFM Espaço Físico de UAN</p>
+                </div>
+            `;
+            let hasContent = false;
+
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(sec => {
+                const checkbox = sec.querySelector('.report-checkbox');
+                const textarea = sec.querySelector('.report-textarea');
+                // Encontrar o título da seção (o primeiro h2 ou h3 serve)
+                let titleEl = sec.querySelector('h2');
+                
+                if (checkbox && checkbox.checked && textarea && textarea.value.trim() !== '') {
+                    hasContent = true;
+                    const title = titleEl ? titleEl.innerText : 'Anotações';
+                    
+                    // Tratamento para quebras de linha na exibição HTML
+                    const textContent = textarea.value.replace(/\n/g, '<br>');
+                    
+                    reportHTML += `
+                        <div style="margin-bottom: 30px; font-family: 'Segoe UI', Tahoma, sans-serif;">
+                            <h2 style="color: #fb8500; font-size: 20px; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 15px;">${title}</h2>
+                            <p style="color: #334155; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; line-height: 1.6;">${textContent}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!hasContent) {
+                showToast("Por favor, preencha as caixas de texto nas seções desejadas e marque a opção 'Incluir no Relatório Final' antes de gerar.");
+                return;
+            }
+
+            const printWindow = window.open('', '_blank');
+            if(!printWindow) {
+                showToast("O bloqueador de pop-ups impediu a geração do relatório. Por favor, permita pop-ups para este site.");
+                return;
+            }
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Relatório - Planejamento UAN</title>
+                    <style>
+                        body { 
+                            padding: 40px; 
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                            max-width: 800px; 
+                            margin: auto; 
+                            color: #1e293b;
+                        }
+                        @media print { 
+                            body { padding: 0; margin: 0; max-width: 100%; } 
+                            /* Evita quebra de página dentro de uma seção do relatório */
+                            div { page-break-inside: avoid; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${reportHTML}
+                    <div style="margin-top: 50px; text-align: center; border-top: 1px solid #eee; padding-top: 20px; font-size: 12px; color: #94a3b8;">
+                        Baseado na RDC 216/2004 e 275/2002 | Criado por Rômulo F. Monteiro (@romulof.monteiro)
+                    </div>
+                    <script>
+                        // Aciona a impressão automaticamente quando carregar
+                        setTimeout(() => { 
+                            window.print(); 
+                        }, 500);
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+    </script>
+</body>
+</html>
