@@ -83,7 +83,7 @@
                 <i data-lucide="home" class="w-5 h-5"></i> Início & Segmentos
             </button>
             <button onclick="switchTab('consultoria')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="consultoria">
-                <i data-lucide="search" class="w-5 h-5"></i> Consultar Estrutura Física
+                <i data-lucide="search" class="w-5 h-5"></i> Consultar Estrutura
             </button>
             <button onclick="switchTab('porte')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium transition-colors hover:bg-rfm-blue/20 text-rfm-light" data-target="porte">
                 <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Porte da UAN
@@ -126,7 +126,7 @@
         </nav>
         
         <div class="p-4 bg-rfm-dark border-t border-rfm-blue/30 text-[10px] leading-tight text-rfm-light text-center">
-            Baseado na RDC 216/2004 e 275/2002, Livro gestão de UAN por Edeli Abreu et.al e criado por um nutri Rômulo F. Monteiro <a href="https://www.instagram.com/romulof.monteiro/" target="_blank" class="text-rfm-yellow hover:underline">(@romulof.monteiro)</a>
+            Baseado na RDC 216/2004 e 275/2002, Livro gestão de UAN por Edeli Abreu et.al e criado por Rômulo F. Monteiro <a href="https://www.instagram.com/romulof.monteiro/" target="_blank" class="text-rfm-yellow hover:underline">(@romulof.monteiro)</a>
         </div>
     </aside>
 
@@ -137,7 +137,7 @@
     <main class="flex-1 flex flex-col h-full bg-slate-50 relative pt-16 md:pt-0 overflow-hidden">
         
         <div class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth" id="mainScrollArea">
-            <div class="max-w-5xl mx-auto">
+            <div class="max-w-5xl mx-auto pb-24">
 
                 <!-- 1. INTRODUÇÃO -->
                 <section id="intro" class="section-content active">
@@ -151,7 +151,6 @@
                             Qualquer projeto de sucesso começa pelo entendimento das normas (<strong class="text-rfm-blue">RDC nº 216/2004</strong>) e das necessidades específicas do seu negócio.
                         </p>
 
-                        <!-- Novo bloco adicionado: Importância do Planejamento Físico -->
                         <div class="bg-rfm-light/10 border-l-4 border-rfm-blue p-6 rounded-r-xl mb-8">
                             <h3 class="text-lg font-bold text-rfm-dark mb-4">O planejamento físico adequado de uma UAN é fundamental para evitar problemas estruturais e operacionais, garantindo que não ocorra:</h3>
                             <ul class="space-y-3 text-slate-700 font-medium">
@@ -188,7 +187,6 @@
                             </ul>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -196,6 +194,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('consultoria')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Estrutura & Normas <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -205,17 +210,15 @@
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
                         <div class="mb-8">
                             <h2 class="text-3xl font-bold text-rfm-dark mb-2">Estrutura Física & Normas</h2>
-                            <p class="text-slate-600 mb-6">Tem dúvidas sobre como construir? Você pode buscar não apenas normas, mas também qualquer parte do site (ex: digite 'lixo', 'chefe', etc).</p>
+                            <p class="text-slate-600 mb-6">Explore os padrões estruturais abaixo ou pesquise o que procura (ex: piso, teto, exaustor, etc).</p>
                             
-                            <!-- Search Bar -->
                             <div class="relative bg-white shadow-md rounded-xl p-2 flex items-center border border-slate-200 focus-within:border-rfm-blue transition-colors">
                                 <i data-lucide="search" class="text-slate-400 ml-3"></i>
-                                <input type="text" id="searchInput" placeholder="Ex: Qual o tamanho da janela? Ou pesquise um setor..." 
+                                <input type="text" id="searchInput" placeholder="Pesquise estruturas, regras ou palavras-chave..." 
                                     class="w-full p-3 outline-none text-slate-700 bg-transparent" onkeyup="searchNorms()">
                             </div>
                         </div>
 
-                        <!-- Search Results Area -->
                         <div id="searchResults" class="hidden mb-8 bg-rfm-light/20 p-6 rounded-xl border border-rfm-light">
                             <h3 class="text-lg font-bold text-rfm-dark mb-4 flex items-center gap-2">
                                 <i data-lucide="info" class="text-rfm-blue"></i> Resultados da sua busca:
@@ -223,12 +226,10 @@
                             <div id="resultsContainer" class="space-y-4"></div>
                         </div>
 
-                        <!-- Interactive Grid (The "Wall/Blueprint") -->
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6" id="blueprintGrid">
-                            <!-- Gerado via JS para facilitar manuntenção futura -->
+                            <!-- Gerado via JS -->
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -236,6 +237,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('porte')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Porte da UAN <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -277,7 +285,6 @@
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -285,6 +292,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('equipe')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Equipe <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -326,19 +340,17 @@
                                 </div>
                             </div>
                             
-                            <!-- Chefe de cozinha e Administradores -->
                             <div class="flex gap-6 items-start bg-slate-50 p-6 rounded-xl border border-slate-100">
                                 <div class="bg-rfm-orange text-white p-4 rounded-lg shadow-sm">
                                     <i data-lucide="users" class="w-8 h-8"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-xl font-bold text-rfm-dark mb-2">Chefe de Cozinha e Administradores do Restaurante</h3>
-                                    <p class="text-slate-600">O chefe de cozinha contribui com a expertise da operação culinária e dinâmica de preparos, enquanto os administradores garantem a viabilidade financeira, estratégica e comercial do negócio.</p>
+                                    <h3 class="text-xl font-bold text-rfm-dark mb-2">Chefe de Cozinha e Administradores</h3>
+                                    <p class="text-slate-600">O chefe contribui com a expertise da operação culinária e dinâmica de preparos, enquanto administradores garantem a viabilidade financeira, estratégica e comercial do negócio.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -346,6 +358,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('cardapio')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Cardápio <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -377,12 +396,11 @@
                                 <h3 class="text-xl font-bold mb-2">Lei 14.016/2020 (Combate ao Desperdício)</h3>
                                 <p class="text-sm opacity-90">
                                     Esta lei dispõe sobre o combate ao desperdício de alimentos e a doação de excedentes para consumo humano. 
-                                    <strong>Impacto no espaço:</strong> Se a UAN adotar a doação, prever espaço para resfriamento rápido (Blast Chiller) e armazenamento segregado (freezer/geladeira exclusivo para doações) mantendo a segurança sanitária.
+                                    <strong>Impacto no espaço:</strong> Se a UAN adotar a doação, prever espaço para resfriamento rápido (Blast Chiller) e armazenamento segregado (freezer exclusivo) mantendo a segurança sanitária.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -390,6 +408,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('processos')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Processos & Equipamentos <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -416,7 +441,7 @@
                                 </h4>
                                 <p class="text-slate-600 text-sm">
                                     Quais equipamentos serão necessários? (Fatiar, cortar, grelhar, assar, saltear). 
-                                    <strong>Adequação ao cardápio:</strong> Vai fritar batata? Se não, não ocupe espaço (e orçamento) com fritadeira.
+                                    <strong>Adequação ao cardápio:</strong> Vai fritar batata? Se não, não ocupe espaço com fritadeira.
                                 </p>
                             </div>
                             <div class="border border-slate-200 rounded-xl p-6 hover:shadow-md transition">
@@ -432,12 +457,11 @@
                                     <i data-lucide="bar-chart" class="text-rfm-orange"></i> Produtividade e Investimento
                                 </h4>
                                 <p class="text-slate-600 text-sm">
-                                    A quantidade e capacidade dos equipamentos devem ser adequadas para evitar <strong>gargalos na produção</strong>, sempre respeitando a adequação ao investimento (Orçamento disponível).
+                                    A quantidade e capacidade dos equipamentos devem ser adequadas para evitar <strong>gargalos na produção</strong>, sempre respeitando a adequação ao investimento.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -445,6 +469,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('demanda')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Demanda Prevista <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -469,7 +500,7 @@
                                     <li>Prever área para presença e rota de entregadores (Delivery).</li>
                                     <li>Espaço para armazenamento de embalagens térmicas/descartáveis.</li>
                                     <li>Área para montagem de refeição e expedição.</li>
-                                    <li><strong>Refeições transportadas:</strong> Estacionamento de carrinhos isotérmicos e área para rigoroso controle higiênico-sanitário das caixas térmicas.</li>
+                                    <li><strong>Refeições transportadas:</strong> Estacionamento de carrinhos isotérmicos e área para rigoroso controle das caixas térmicas.</li>
                                 </ul>
                             </div>
 
@@ -483,7 +514,6 @@
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -491,6 +521,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('ambiencia')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Ambiência <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -515,7 +552,7 @@
                             <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100">
                                 <i data-lucide="ear" class="w-10 h-10 mx-auto text-rfm-orange mb-3"></i>
                                 <h4 class="font-bold text-rfm-dark">Acústica</h4>
-                                <p class="text-xs text-slate-500 mt-2">Isolamento de áreas barulhentas (lavagem de panelas, maquinários pesados).</p>
+                                <p class="text-xs text-slate-500 mt-2">Isolamento de áreas barulhentas. (Veja tabela de limite de ruídos na busca global).</p>
                             </div>
                             <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100">
                                 <i data-lucide="wind" class="w-10 h-10 mx-auto text-rfm-blue mb-3"></i>
@@ -525,11 +562,10 @@
                             <div class="text-center p-6 bg-slate-50 rounded-xl border border-slate-100 md:col-span-2">
                                 <i data-lucide="thermometer-sun" class="w-10 h-10 mx-auto text-rfm-orange mb-3"></i>
                                 <h4 class="font-bold text-rfm-dark">Conforto Térmico</h4>
-                                <p class="text-xs text-slate-500 mt-2">Sistemas de exaustão sobre fontes de calor (fogões/fornos) dimensionados adequadamente para o bem-estar do manipulador e controle de proliferação bacteriana.</p>
+                                <p class="text-xs text-slate-500 mt-2">Sistemas de exaustão sobre fontes de calor (fogões/fornos) dimensionados adequadamente para o bem-estar e segurança sanitária.</p>
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -537,6 +573,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('fluxograma')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Fluxograma Ideal <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -546,7 +589,6 @@
                     <div class="bg-gradient-primary rounded-2xl shadow-lg p-8 text-white mb-8">
                         <h2 class="text-3xl font-bold mb-6 text-rfm-yellow">O Fluxograma Ideal (RDC 216/2004)</h2>
                         
-                        <!-- Texto Atualizado Exatamente como Pedido -->
                         <div class="space-y-4 mb-8 bg-white/10 p-6 rounded-xl border border-white/20 text-sm md:text-base leading-relaxed text-justify">
                             <p>
                                 O fluxo físico-funcional da Unidade de Alimentação e Nutrição inicia-se no recebimento das matérias-primas, que seguem para armazenamento em estoque seco (estoque neutro) ou estoque refrigerado, conforme a natureza do alimento; em seguida, os gêneros são encaminhados à área de preparo, onde passam pelas etapas de higienização, corte e porcionamento, seguindo para a cocção, após a qual os alimentos são destinados às áreas de pratos quentes ou pratos frios, conforme o tipo de preparação, sendo então encaminhados para o restaurante para distribuição ao cliente; paralelamente, os utensílios utilizados retornam pela área de devolução, seguindo para lavagem de utensílios e lavagem de panelas, enquanto os resíduos gerados durante o processo são direcionados ao tratamento de lixo, garantindo fluxo unidirecional, sem cruzamento entre materiais sujos e limpos, conforme o princípio da marcha à vante.
@@ -589,21 +631,20 @@
                                 </div>
                             </div>
                             
-                            <!-- Retornos (Áreas Sujas) -->
+                            <!-- Retornos -->
                             <div class="mt-8 pt-6 border-t border-white/20">
                                 <h4 class="text-rfm-yellow font-bold mb-4 flex items-center gap-2"><i data-lucide="rotate-ccw"></i> Fluxos de Retorno (Separados!)</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bg-red-500/20 p-4 rounded-lg border border-red-500/30">
+                                <div class="grid md:grid-cols-2 gap-4 text-slate-800">
+                                    <div class="bg-red-100 p-4 rounded-lg border border-red-300">
                                         <strong>Utensílios:</strong> Retornam por guichê separado direto para a área de higienização.
                                     </div>
-                                    <div class="bg-red-500/20 p-4 rounded-lg border border-red-500/30">
-                                        <strong>Sobras & Lixo:</strong> Tratadas conforme temperatura. Lixo destinado a área própria por rota exclusiva.
+                                    <div class="bg-red-100 p-4 rounded-lg border border-red-300">
+                                        <strong>Sobras & Lixo:</strong> Lixo destinado a área própria por rota exclusiva.
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-white/20 bg-white/5 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-white mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-white/30 bg-white/10 text-white rounded-xl focus:ring-2 focus:ring-rfm-yellow outline-none resize-y transition-shadow placeholder-white/50" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -611,6 +652,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-yellow rounded border-white/30 focus:ring-rfm-yellow cursor-pointer">
                                 <label class="font-medium text-white cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa (Amarelo para contraste neste fundo azul/escuro) -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('residuos')" class="flex items-center gap-2 bg-rfm-yellow text-rfm-dark px-6 py-3 rounded-xl font-bold hover:bg-white transition-colors shadow-md">
+                                Próxima Etapa: Rota de Resíduos <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -648,7 +696,6 @@
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -656,6 +703,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('estacoes')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Estações de Trabalho <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -677,7 +731,7 @@
                             </div>
                             <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
                                 <h4 class="font-bold text-rfm-dark mb-1">Estocagem refrigerada</h4>
-                                <p class="text-slate-600">Reservada a todos os alimentos perecíveis, como: Hortifrutigranjeiros de 4 a 6ºC; Carnes de 0 a 2ºC; Diversos (laticínios) de 2 a 4º C; congelados de -18 a 22ºC.</p>
+                                <p class="text-slate-600">Reservada a alimentos perecíveis. Recomendável câmaras frigoríficas específicas (ex: carnes a 0°C, vegetais a 10°C) com portas herméticas e revestimento lavável.</p>
                             </div>
                             <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
                                 <h4 class="font-bold text-rfm-dark mb-1">Pré-preparo (Vegetais/Legumeria)</h4>
@@ -685,7 +739,7 @@
                             </div>
                             <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
                                 <h4 class="font-bold text-rfm-dark mb-1">Pré-preparo de carnes</h4>
-                                <p class="text-slate-600">Reservado ao corte, tratamento e preparo de cortes em geral. O fluxo não pode cruzar com alimentos prontos.</p>
+                                <p class="text-slate-600">Reservado ao corte e tratamento de cortes em geral. O fluxo não pode cruzar com alimentos prontos.</p>
                             </div>
                             <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
                                 <h4 class="font-bold text-rfm-dark mb-1">Confeitaria</h4>
@@ -708,16 +762,15 @@
                                 <p class="text-slate-600">Composta por: recepção, lavabos, restaurante, cafeteria e lanchonete.</p>
                             </div>
                             <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
-                                <h4 class="font-bold text-rfm-dark mb-1">Local de higienização e tratamento de lixo</h4>
-                                <p class="text-slate-600">Lavagem de panelas: reservado ao tratamento e higienização dos utensílios de cozinha. Tratamento de utensílios: reservado à higienização dos utensílios utilizados pelos clientes no refeitório. Depósito de lixo: reservado a estocagem do lixo.</p>
+                                <h4 class="font-bold text-rfm-dark mb-1">Local de higienização</h4>
+                                <p class="text-slate-600">Lavagem de panelas: tratamento dos utensílios de cozinha. Lavagem de louças: higienização dos utensílios utilizados pelos clientes.</p>
                             </div>
                             <div class="bg-rfm-light/20 p-4 rounded-lg border border-rfm-light break-inside-avoid">
                                 <h4 class="font-bold text-rfm-dark mb-1">Anexos</h4>
-                                <p class="text-slate-600">Sala de administração: reservada ao adm, chefe de cozinha e pessoal da contabilidade. Vestiários e sanitários: exclusivos para os funcionários internos. Áreas técnicas: reservado a instalação de ventilação, transformação de energia e deposito de combustível.</p>
+                                <p class="text-slate-600">Sala de administração, vestiários e sanitários (exclusivos para funcionários), e áreas técnicas.</p>
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -725,6 +778,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('orcamento')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Orçamento <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -752,7 +812,6 @@
                             </div>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -760,6 +819,13 @@
                                 <input type="checkbox" checked class="report-checkbox w-5 h-5 text-rfm-blue rounded border-slate-300 focus:ring-rfm-blue cursor-pointer">
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
+                        </div>
+
+                        <!-- Botão Próxima Etapa -->
+                        <div class="mt-8 flex justify-end">
+                            <button onclick="switchTab('checklist')" class="flex items-center gap-2 bg-rfm-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-rfm-blue transition-colors shadow-md">
+                                Próxima Etapa: Checklist Final <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -785,7 +851,6 @@
                             </a>
                         </div>
 
-                        <!-- MÓDULO DE RELATÓRIO -->
                         <div class="mt-8 pt-6 border-t border-slate-200 bg-slate-50 p-6 rounded-xl">
                             <label class="block text-lg font-bold text-rfm-dark mb-2">O que vamos planejar na sua UAN?</label>
                             <textarea rows="3" class="report-textarea w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rfm-blue outline-none resize-y transition-shadow" placeholder="Escreva aqui suas anotações..."></textarea>
@@ -794,11 +859,16 @@
                                 <label class="font-medium text-slate-700 cursor-pointer text-sm">Incluir esta seção no Relatório Final</label>
                             </div>
                         </div>
+
+                        <!-- Botão Gerar Relatório (Final do Fluxo) -->
+                        <div class="mt-8 flex justify-end border-t border-slate-200 pt-6">
+                            <button onclick="gerarRelatorio()" class="flex items-center gap-2 bg-rfm-yellow text-rfm-dark px-6 py-3 rounded-xl font-bold hover:bg-rfm-orange hover:text-white transition-colors shadow-md">
+                                <i data-lucide="printer" class="w-5 h-5"></i> Gerar Relatório Final
+                            </button>
+                        </div>
                     </div>
                 </section>
 
-                <!-- Footer spacer -->
-                <div class="h-20"></div>
             </div>
         </div>
     </main>
@@ -814,12 +884,12 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <div class="p-6 max-h-[70vh] overflow-y-auto">
-                <div id="modalBody" class="text-slate-700 leading-relaxed space-y-4">
+            <div class="p-6 max-h-[75vh] overflow-y-auto">
+                <div id="modalBody" class="text-slate-700 leading-relaxed space-y-4 text-sm md:text-base">
                     <!-- Conteúdo dinâmico -->
                 </div>
                 <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-400">
-                    Fonte: RDC nº 216/2004 e RDC nº 275/2002 - ANVISA
+                    Fonte: Literatura especializada em UAN e Legislação Vigente
                 </div>
             </div>
         </div>
@@ -850,7 +920,7 @@
                 el.classList.remove('active');
             });
             
-            // Remover estado ativo dos botões
+            // Remover estado ativo dos botões da sidebar
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-rfm-blue/20', 'text-rfm-yellow');
                 btn.classList.add('text-rfm-light');
@@ -860,7 +930,7 @@
             const targetEl = document.getElementById(tabId);
             if(targetEl) targetEl.classList.add('active');
             
-            // Destacar o botão clicado
+            // Destacar o botão clicado na sidebar
             const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
             if (activeBtn) {
                 activeBtn.classList.add('bg-rfm-blue/20', 'text-rfm-yellow');
@@ -868,19 +938,20 @@
             }
 
             // Fechar menu mobile se estiver aberto
-            if (window.innerWidth < 768) {
+            if (window.innerWidth < 768 && !overlay.classList.contains('hidden')) {
                 toggleMenu();
             }
 
-            // Scroll pro topo
-            document.getElementById('mainScrollArea').scrollTop = 0;
+            // Scroll pro topo da view suavemente
+            document.getElementById('mainScrollArea').scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Limpar busca caso seja chamado via busca global
-            if(tabId !== 'consultoria') {
+            // Limpar busca caso seja chamado via busca global para resetar o layout da consultoria
+            if(tabId === 'consultoria') {
                const searchInput = document.getElementById('searchInput');
-               if(searchInput) {
+               if(searchInput && searchInput.value.length > 0) {
                    searchInput.value = '';
                    document.getElementById('searchResults').classList.add('hidden');
+                   document.getElementById('blueprintGrid').classList.remove('hidden');
                    renderGrid(dbNormas);
                }
             }
@@ -909,9 +980,9 @@
                 tags: ['parede', 'paredes', 'divisória', 'tinta', 'azulejo', 'revestimento', 'lavável', 'cor'],
                 type: 'norm',
                 texto: `
-                    <p><strong>Revestimento:</strong> Devem possuir acabamento liso, impermeável, lavável, de cores claras e isento de fungos e bolores.</p>
+                    <p><strong>Revestimento:</strong> As paredes devem possuir revestimento liso, impermeável e lavável, com acabamento adequado, isento de fungos e bolores, e sem fendas entre azulejos, estendendo-se idealmente do piso ao teto.</p>
                     <p><strong>RDC 216:</strong> Devem estar conservadas, livres de rachaduras, trincas, goteiras, vazamentos, infiltrações, descascamentos, dentre outros defeitos que possam transmitir contaminantes aos alimentos.</p>
-                    <p><strong>Altura recomendada:</strong> O revestimento impermeável (ex: azulejo ou tinta epóxi) deve ir até o teto. Caso não vá até o teto, no mínimo 2 metros de altura, com pintura lavável acima disso.</p>
+                    <p><strong>Altura recomendada:</strong> O revestimento impermeável (ex: cerâmica, porcelanato ou tinta epóxi) deve ir até o teto. Caso não seja viável, no mínimo 2 metros de altura na área de lavagem e manipulação.</p>
                     <p><strong>Ângulos:</strong> É fortemente recomendado que a junção entre a parede e o piso seja arredondada (meia-cana) para facilitar a higienização.</p>
                 `
             },
@@ -922,8 +993,9 @@
                 tags: ['piso', 'chão', 'ralo', 'ralos', 'esgoto', 'caimento', 'declive', 'antiderrapante'],
                 type: 'norm',
                 texto: `
-                    <p><strong>RDC 216:</strong> O piso deve ser revestido de material liso, antiderrapante, impermeável, lavável, de fácil higienização e resistente ao trânsito e ao uso de produtos de limpeza (ex: porcelanato técnico, piso epóxi, cerâmica extrudada).</p>
-                    <p><strong>Declive e Ralos:</strong> O piso deve ter inclinação suficiente em direção aos ralos, não permitindo o acúmulo de água. Ralos devem ser sifonados (para evitar retorno de odores) e possuir grelhas com sistema de fechamento (escamoteáveis) para impedir a entrada de pragas (baratas/ratos).</p>
+                    <p><strong>Características:</strong> O piso deve ser liso, resistente, impermeável, lavável, de cores claras, <strong>antiderrapante</strong>, resistente à ação de substâncias anticorrosivas e de fácil higienização, não permitindo acúmulo de alimentos ou sujidades.</p>
+                    <p><strong>Declive e Escoamento:</strong> O piso deve apresentar inclinação suficiente em direção aos ralos para evitar acúmulo e estagnação de água.</p>
+                    <p><strong>Ralos:</strong> Os ralos devem ser obrigatoriamente <strong>sifonados</strong> (para evitar retorno de odores e pragas), com grade dotada de tampa e dispositivo de fechamento (escamoteáveis).</p>
                 `
             },
             {
@@ -933,7 +1005,8 @@
                 tags: ['teto', 'tetos', 'forro', 'forros', 'goteira', 'infiltração', 'laje'],
                 type: 'norm',
                 texto: `
-                    <p><strong>RDC 216:</strong> Os tetos e forros devem ser de acabamento liso, impermeável, lavável, de cores claras e conservados (livres de rachaduras, goteiras, vazamentos, infiltrações ou descascamentos).</p>
+                    <p><strong>Acabamento:</strong> O forro deve ser liso, de cor clara, lavável, impermeável e <strong>arredondado em todas as junções com a parede</strong> para evitar o acúmulo de sujidades e teias.</p>
+                    <p><strong>RDC 216:</strong> Devem ser mantidos isentos de goteiras, vazamentos, infiltrações, trincas, umidade, bolores e descascamentos.</p>
                     <p><strong>Material:</strong> O uso de forro de PVC é comum, mas o ideal em cozinhas quentes é a laje rebocada com pintura epóxi ou forro de material incombustível (placas de gesso acartonado resistente à umidade com pintura lavável). Deve-se evitar vãos que sirvam de abrigo para pragas.</p>
                 `
             },
@@ -956,16 +1029,16 @@
                 type: 'norm',
                 texto: `
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Iluminação Natural</h4>
-                    <p class="mb-4">A iluminação natural é obrigatória em ambientes de UAN e deve respeitar proporções mínimas em relação à área do piso. Em compartimentos de permanência prolongada (como áreas de produção), o vão para iluminação natural deve corresponder a, no mínimo, <strong>1/6 da área do piso</strong>, enquanto em compartimentos de permanência transitória a proporção mínima é de <strong>1/8</strong>. Os Códigos de Obras municipais podem variar esses parâmetros, mas mantêm valores próximos. As aberturas destinadas não devem permitir a incidência direta do sol sobre as superfícies de trabalho, a fim de evitar desconforto térmico, ofuscamento e riscos à qualidade dos alimentos.</p>
+                    <p class="mb-4">A iluminação natural é obrigatória em ambientes de UAN e deve respeitar proporções mínimas em relação à área do piso. Em compartimentos de permanência prolongada (como áreas de produção), o vão para iluminação natural deve corresponder a, no mínimo, <strong>1/6 da área do piso</strong>, enquanto em compartimentos de permanência transitória a proporção mínima é de <strong>1/8</strong>. As aberturas destinadas não devem permitir a incidência direta do sol sobre as superfícies de trabalho.</p>
 
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Iluminação Artificial</h4>
-                    <p class="mb-4">A iluminação artificial deve complementar a iluminação natural, garantindo condições adequadas de trabalho em todos os períodos do dia. Conforme a NR-24 do MTE, recomenda-se a instalação de <strong>150 W para cada 6 m² em refeitórios</strong> e <strong>150 W para cada 4 m² em cozinhas</strong> ou áreas de produção, assegurando visibilidade suficiente para a execução segura.</p>
+                    <p class="mb-4">A iluminação artificial deve complementar a iluminação natural, garantindo condições adequadas de trabalho em todos os períodos do dia. Conforme a NR-24 do MTE, recomenda-se a instalação de <strong>150 W para cada 6 m² em refeitórios</strong> e <strong>150 W para cada 4 m² em cozinhas</strong> ou áreas de produção.</p>
 
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Tipo de Lâmpadas e Luminárias</h4>
-                    <p class="mb-4">A RDC não obriga o tipo de lâmpada (não exige LED ou fluorescente). Ela exige que a iluminação seja: <strong>Suficiente para as atividades, distribuída uniformemente, sem risco de contaminação e com proteção contra estilhaçamento</strong>. As luminárias devem estar protegidas para evitar contaminação dos alimentos em caso de quebra acidental. Ou seja, o foco da legislação é a segurança do alimento.</p>
+                    <p class="mb-4">A RDC não obriga a tecnologia da lâmpada (não exige LED). Ela exige que a iluminação seja: <strong>Suficiente, distribuída uniformemente, sem risco de contaminação e com proteção contra estilhaçamento</strong>. As luminárias localizadas sobre a área de preparo devem ser apropriadas e protegidas contra explosão e quedas acidentais.</p>
 
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Intensidade de Iluminação (Lux)</h4>
-                    <p class="mb-4">A intensidade da iluminação é medida em lux. De acordo com a ABNT, as cozinhas e áreas de produção de alimentos devem apresentar, em média, cerca de <strong>500 lux</strong>, enquanto os refeitórios devem possuir aproximadamente <strong>200 lux</strong>, garantindo condições adequadas de visualização e conforto visual.</p>
+                    <p class="mb-4">A intensidade da iluminação é medida em lux. De acordo com a ABNT, as cozinhas e áreas de produção de alimentos devem apresentar, em média, cerca de <strong>500 lux</strong>, enquanto os refeitórios devem possuir aproximadamente <strong>200 lux</strong>.</p>
                 `
             },
             {
@@ -976,16 +1049,16 @@
                 type: 'norm',
                 texto: `
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">RDC 216 - Condições de Ventilação</h4>
-                    <p class="mb-4">A ventilação deve garantir a renovação do ar e a manutenção do ambiente livre de fungos, gases, fumaça, pós, partículas em suspensão, condensação de vapores dentre outros que possam comprometer a qualidade higiênico-sanitária do alimento. <strong>O fluxo de ar não deve incidir diretamente sobre os alimentos.</strong></p>
+                    <p class="mb-4">A ventilação deve garantir a renovação do ar e a manutenção do ambiente livre de fungos, gases, fumaça, pó, condensação de vapores, etc. <strong>O fluxo de ar não deve incidir diretamente sobre os alimentos.</strong></p>
 
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Conforto Térmico em UAN</h4>
-                    <p class="mb-4">Nas UANs, o ambiente tende a ser quente e úmido em razão dos vapores de cocção. Conforme Teixeira et al. (2000), as condições ideais para o trabalho em UAN correspondem a <strong>temperaturas entre 22 ºC e 26 ºC e umidade relativa de 50 a 60%</strong>. Temperaturas elevadas (28 ºC a 37 ºC) com umidade excessiva favorecem a sudorese dos manipuladores, reduzem a produtividade e podem comprometer o padrão higiênico.</p>
+                    <p class="mb-4">Nas UANs, o ambiente tende a ser quente e úmido. Conforme Teixeira et al. (2000), as condições ideais para o trabalho correspondem a <strong>temperaturas entre 22 ºC e 26 ºC e umidade relativa de 50 a 60%</strong>. Temperaturas elevadas (28 ºC a 37 ºC) com umidade excessiva reduzem a produtividade e podem comprometer o padrão higiênico.</p>
 
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Ventilação Natural e Mecânica</h4>
-                    <p class="mb-4"><strong>Natural:</strong> As aberturas nas paredes devem corresponder, no mínimo, a <strong>1/6 da área do piso</strong> em compartimentos de permanência prolongada e <strong>1/8</strong> em locais de permanência transitória (sujeito à variação pelo Código de Obras municipal).<br><strong>Mecânica e Controle de Pragas:</strong> Exaustores são amplamente utilizados para promover a renovação contínua. Tanto exaustores quanto janelas devem possuir <strong>telas milimétricas</strong> para impedir o acesso de vetores.</p>
+                    <p class="mb-4"><strong>Natural:</strong> As aberturas nas paredes devem corresponder a <strong>1/6 da área do piso</strong> (permanência prolongada) e <strong>1/8</strong> (permanência transitória).<br><strong>Mecânica:</strong> Exaustores são fundamentais nas cozinhas. Tanto exaustores quanto janelas devem possuir <strong>telas milimétricas</strong> para controle de pragas.</p>
 
-                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Restrições Legais (Ex: CVS-5/SP)</h4>
-                    <p class="mb-4">De acordo com legislações sanitárias estaduais (como a CVS-5 em SP), <strong>é proibido o uso de ventiladores e climatizadores</strong> nas áreas de manipulação e armazenamento de alimentos, sendo fundamental consultar a legislação específica do seu estado de atuação.</p>
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Restrições Legais</h4>
+                    <p class="mb-4">De acordo com legislações sanitárias estaduais (como a CVS-5 em SP), <strong>é proibido o uso de ventiladores e climatizadores</strong> ventilando diretamente nas áreas de manipulação e armazenamento de alimentos.</p>
                 `
             },
             {
@@ -996,11 +1069,33 @@
                 type: 'norm',
                 texto: `
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Níveis de Ruído Permitidos</h4>
-                    <p class="mb-4">A capacidade auditiva do homem vai de 0 a 120 decibéis, porém, ruídos entre 70 e 80 decibéis já prejudicam a saúde e, passando dos 80 decibéis, prejudicam o aparelho auditivo. O nível de ruído aceitável à permanência prolongada vai de <strong>45 a 55 decibéis</strong> (SILVA JUNIOR, 1995). A Norma Regulamentadora nº 15 do MTE indica que um indivíduo não pode ficar exposto por mais de 8 horas em um ambiente com um ruído contínuo de <strong>85 decibéis</strong>. Níveis acima de 115 decibéis exigem proteção auricular obrigatória.</p>
+                    <p class="mb-4">A capacidade auditiva do homem vai de 0 a 120 decibéis. O nível de ruído aceitável para permanência prolongada e conforto vai de <strong>45 a 55 decibéis</strong>. Contudo, em áreas industriais e cozinhas (impacto de panelas, exaustores), o ruído sobe consideravelmente.</p>
+
+                    <h4 class="font-bold text-rfm-dark mb-4 border-b pb-1">Tabela: Exposição Máxima Diária ao Ruído (NR-15)</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full text-sm text-left border border-slate-200 shadow-sm">
+                            <thead class="bg-slate-100 text-rfm-dark">
+                                <tr>
+                                    <th class="p-3 border">Nível de Ruído (dB)</th>
+                                    <th class="p-3 border">Exposição Máxima Diária Permitida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="p-3 border font-semibold">85 dB</td><td class="p-3 border">8 horas</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 border font-semibold">87 dB</td><td class="p-3 border">6 horas</td></tr>
+                                <tr class="bg-white"><td class="p-3 border font-semibold">90 dB</td><td class="p-3 border">4 horas</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 border font-semibold">92 dB</td><td class="p-3 border">3 horas</td></tr>
+                                <tr class="bg-white"><td class="p-3 border font-semibold">95 dB</td><td class="p-3 border">2 horas</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 border font-semibold">100 dB</td><td class="p-3 border">1 hora</td></tr>
+                                <tr class="bg-white"><td class="p-3 border font-semibold">105 dB</td><td class="p-3 border">30 minutos</td></tr>
+                                <tr class="bg-slate-50"><td class="p-3 border font-semibold">110 dB</td><td class="p-3 border">15 minutos</td></tr>
+                                <tr class="bg-red-50"><td class="p-3 border font-semibold text-red-600">115 dB</td><td class="p-3 border font-semibold text-red-600">7 minutos (Exige EPI)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Cuidados no Planejamento Físico</h4>
-                    <p class="mb-2">Em função da presença de ruídos acima do tolerável (utensílios, água, vapor, impactos no inox), devem ser observados cuidados na fase de planejamento físico:</p>
-                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                    <ul class="list-disc pl-5 mb-4 space-y-2 text-slate-700">
                         <li>Utilizar materiais acústicos e isolantes para tetos e paredes.</li>
                         <li>Utilizar equipamentos silenciosos e carros que se movam sobre rodízios de borracha.</li>
                         <li>As paredes paralelas não devem ficar a mais de 17 m de distância.</li>
@@ -1009,57 +1104,87 @@
                 `
             },
             {
-                id: 'lavatorios',
-                titulo: 'Pias e Lavatórios Exclusivos',
-                icone: 'droplets',
-                tags: ['pia', 'lavatório', 'mão', 'mãos', 'sabonete', 'papel', 'pedal', 'joelho'],
+                id: 'instalacoes',
+                titulo: 'Instalações (Elétrica, Hidráulica, Gás e Esgoto)',
+                icone: 'zap',
+                tags: ['elétrica', 'tomada', 'fio', 'hidráulica', 'água', 'tubulação', 'gás', 'vapor', 'esgoto', 'encanamento'],
                 type: 'norm',
                 texto: `
-                    <p><strong>RDC 216 (Lavagem de Mãos):</strong> Devem existir lavatórios exclusivos para a higiene das mãos na área de manipulação, em posições estratégicas em relação ao fluxo de preparo.</p>
-                    <p><strong>Equipamentos Opcionais/Obrigatórios:</strong> Devem possuir sabonete líquido inodoro e antisséptico, toalhas de papel não reciclado e lixeira com acionamento que não demande contato manual (pedal ou sensor).</p>
-                    <p><strong>Acionamento da água:</strong> É recomendável torneiras com acionamento por pedal, joelho, sensor ou cotovelo, para evitar recontaminação das mãos limpas.</p>
+                    <p class="mb-3"><strong>Instalações Elétricas:</strong> Devem ser embutidas ou protegidas em tubulações externas e íntegras, de modo a permitir a adequada higienização dos ambientes. Tomadas e interruptores devem ser limpos e livres de gordura.</p>
+                    
+                    <p class="mb-3"><strong>Instalações Hidráulicas:</strong> Devem possuir pontos de água fria e quente onde se fizer necessário, com tubulação externa (para facilitar a manutenção em caso de vazamentos ou trocas) protegida de forma a permitir higienização.</p>
+                    
+                    <p class="mb-3"><strong>Rede de Esgoto:</strong> As caixas de gordura e de esgoto devem ter dimensões compatíveis com o volume de resíduos produzidos pela UAN e estar localizadas <strong>fora da área de preparação e armazenamento</strong> de alimentos, com fluxo que jamais retorne à área limpa.</p>
+
+                    <p class="mb-3"><strong>Energia a Gás e Vapor:</strong> As tubulações de gás e vapor <strong>não devem ser embutidas</strong> nas paredes, devendo permanecer aparentes por exigência de normas de segurança (Bombeiros), pintadas nas cores regulamentadas (ex: amarelo para gás) e possuir válvulas de segurança de fácil acesso.</p>
+                `
+            },
+            {
+                id: 'camaras',
+                titulo: 'Câmaras Frigoríficas',
+                icone: 'snowflake',
+                tags: ['câmara', 'fria', 'refrigeração', 'congelamento', 'frio', 'geladeira', 'termômetro', 'temperatura'],
+                type: 'norm',
+                texto: `
+                    <p class="mb-4">A área para armazenagem refrigerada deve ser destinada à estocagem de gêneros perecíveis, contando preferencialmente com duas câmaras principais para evitar contaminação cruzada e respeitar temperaturas específicas:</p>
+                    
+                    <ul class="list-disc pl-5 mt-2 mb-4 space-y-2 text-slate-700">
+                        <li>Uma com temperatura de <strong>0 °C e umidade relativa entre 60 e 70%</strong> destinada à conservação de carnes.</li>
+                        <li>Outra com temperatura de <strong>10 °C e umidade relativa de 80%</strong> destinada à conservação de frutas e verduras.</li>
+                    </ul>
+
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Estrutura Interna e Externa</h4>
+                    <p class="mb-3">O revestimento das paredes deve ser de material lavável e resistente (ex: painéis isotérmicos), não devendo o azulejo comum ser aplicado do piso ao teto. O nível do piso da câmara deve ser <strong>igual ao da área externa</strong> para facilitar a entrada de carrinhos. <strong>Não deve haver ralos internos</strong> na câmara fria, mesmo quando sifonados, a água do degelo deve ser escoada para fora.</p>
+
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Equipamentos e Segurança</h4>
+                    <p class="mb-3">As câmaras devem ser dotadas de <strong>termômetro tipo mostrador</strong>, permitindo a leitura da temperatura pelo lado externo. Devem possuir também um interruptor de segurança localizado na parte externa. A porta deve ser hermética, revestida em aço inox ou pintura equivalente, com ferragens robustas cromadas e dispositivos de segurança luminosos que <strong>permitam a abertura também pelo lado interno</strong> (para evitar confinamento acidental).</p>
+
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Mobiliário</h4>
+                    <p class="mb-3">A organização interna deve ser feita com prateleiras moduladas em aço inox, bandejas de alumínio ou plástico apropriado e gancheiros fixos (para peças inteiras de carne).</p>
                 `
             },
             {
                 id: 'tamanho',
-                titulo: 'Tamanho e Dimensionamento Geral',
+                titulo: 'Dimensionamento de Áreas',
                 icone: 'ruler',
-                tags: ['tamanho', 'metro', 'espaço', 'dimensionamento', 'área', 'm2'],
+                tags: ['tamanho', 'metro', 'espaço', 'dimensionamento', 'área', 'm2', 'percentual', 'hospital'],
                 type: 'norm',
                 texto: `
-                    <p><strong>Como calcular a área da UAN?</strong> Não há uma regra cravada na legislação vigente que dite "X metros quadrados", pois depende dos processos (cook and chill x cook and serve), cardápio e layout.</p>
-                    <p><strong>Parâmetros da Literatura (Mezomo):</strong> Em média, estima-se entre 0,5 a 1,0 m² por refeição fornecida para UANs de médio/grande porte. Mas atenção: UANs comerciais tendem a otimizar este espaço, onde a cozinha representa de 30% a 40% do salão do restaurante.</p>
-                    <p>O foco exigido pela vigilância não é a metragem total exata, mas sim <strong>se a área é suficiente para que o fluxo seja contínuo (marcha a vante) sem contaminação cruzada</strong>.</p>
-                `
-            },
-            {
-                id: 'rdc216integra',
-                titulo: 'RDC 216: Íntegra (Instalações e Estrutura)',
-                icone: 'file-text',
-                tags: ['rdc', '216', 'íntegra', 'lei', 'anvisa', 'edificação', 'instalação', 'higienização', 'vetores', 'água', 'abastecimento'],
-                type: 'norm',
-                texto: `
-                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1 mt-2">4.1 EDIFICAÇÃO, INSTALAÇÕES, EQUIPAMENTOS, MÓVEIS E UTENSÍLIOS</h4>
-                    <p class="mb-2"><strong>4.1.1</strong> A edificação e as instalações devem ser projetadas de forma a possibilitar um fluxo ordenado e sem cruzamentos em todas as etapas da preparação de alimentos e a facilitar as operações de manutenção, limpeza e desinfecção. O acesso às instalações deve ser controlado e independente, não comum a outros usos.</p>
-                    <p class="mb-2"><strong>4.1.2</strong> O dimensionamento da edificação e das instalações deve ser compatível com todas as operações. Deve existir separação entre as diferentes atividades por meios físicos ou outros meios eficazes de forma a evitar a contaminação cruzada.</p>
-                    <p class="mb-2"><strong>4.1.3</strong> As instalações físicas como piso, parede e teto devem possuir revestimento liso, impermeável e lavável. Devem ser mantidos íntegros, conservados, livres de rachaduras, trincas, goteiras, vazamentos, infiltrações, bolores, descascamentos, dentre outros e não devem transmitir contaminantes aos alimentos.</p>
-                    <p class="mb-2"><strong>4.1.4</strong> As portas e janelas devem ser mantidas ajustadas aos batentes. Portas da área de preparo/armazenamento com fechamento automático. Aberturas externas (inclusive exaustão) devem ter telas milimetradas (removíveis) para impedir acesso de vetores.</p>
-                    <p class="mb-2"><strong>4.1.5 a 4.1.7</strong> Abastecimento de água corrente e conexão com esgoto. Ralos sifonados e grelhas com fechamento. Caixas de gordura fora da área de preparo e compatíveis com o volume de resíduos. Áreas livres de objetos em desuso, sem presença de animais.</p>
-                    <p class="mb-2"><strong>4.1.8 a 4.1.11</strong> Iluminação suficiente, sem comprometer higiene ou características dos alimentos; luminárias protegidas contra quedas e explosão. Instalações elétricas embutidas/protegidas. Ventilação renovadora que não incida diretamente no alimento. Filtros de climatização conservados e limpos periodicamente.</p>
-                    <p class="mb-2"><strong>4.1.12 a 4.1.14</strong> Sanitários/vestiários não comunicam diretamente com área de preparo. Devem ter lavatórios com sabonete antisséptico, papel não reciclado e lixeira sem contato manual. Lavatórios exclusivos na área de manipulação em posições estratégicas.</p>
-                    <p class="mb-4"><strong>4.1.15 a 4.1.17</strong> Equipamentos/utensílios de material não tóxico. Manutenção programada e calibração de instrumentos de medição com registros. Superfícies lisas, laváveis, impermeáveis, sem frestas ou rugosidades.</p>
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Índices de Dimensionamento (Refeitório/Restaurante)</h4>
+                    <p class="mb-3">Os índices empregados para o dimensionamento de áreas em restaurantes consideram a relação entre o número de pessoas atendidas e a área necessária em metros quadrados (m²) por pessoa no salão. Os valores comumente adotados são:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-1 text-slate-700">
+                        <li>Até 250 a 500 pessoas: <strong>0,80 m²</strong> / pessoa</li>
+                        <li>600 pessoas: <strong>0,75 m²</strong> / pessoa</li>
+                        <li>700 pessoas: <strong>0,72 m²</strong> / pessoa</li>
+                        <li>800 pessoas: <strong>0,70 m²</strong> / pessoa</li>
+                        <li>900 a 1000 pessoas: <strong>0,60 m²</strong> / pessoa</li>
+                        <li>Acima de 1000 pessoas: <strong>0,50 m²</strong> / pessoa</li>
+                    </ul>
 
-                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1 mt-4">4.2 HIGIENIZAÇÃO DE INSTALAÇÕES E EQUIPAMENTOS</h4>
-                    <p class="mb-4"><strong>4.2.1 a 4.2.7</strong> Manter condições higiênico-sanitárias apropriadas, com operação realizada por equipe capacitada. Caixas de gordura limpas periodicamente. Operações de limpeza não rotineiras devem ser registradas. Higienização frequente e imediata após o trabalho, tomando cuidado com a suspensão de partículas (aerossóis). Não utilizar odorizantes/desodorantes na área de preparo. Produtos saneantes regularizados pelo Ministério da Saúde. Utensílios de higienização próprios, limpos, em número suficiente e guardados em local reservado. Utensílios de limpeza do ambiente distintos dos usados nos equipamentos de contato com alimento. Funcionários da higienização de sanitários devem utilizar uniformes diferenciados.</p>
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Distribuição Percentual dos Setores da UAN</h4>
+                    <p class="mb-3">A distribuição percentual ideal das áreas ou setores operacionais dentro do espaço total da Unidade de Alimentação (Cozinha/Apoio) é de aproximadamente:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-1 text-slate-700">
+                        <li>Estocagem (seca e fria): <strong>10 a 12%</strong></li>
+                        <li>Preparo de Refeições: <strong>16 a 20%</strong></li>
+                        <li>Atividades de Higiene e Limpeza (Lavagem): <strong>6 a 8%</strong></li>
+                        <li>Distribuição de Refeições: <strong>45 a 48%</strong></li>
+                        <li>Administração e Segurança (Escritório, Vestiário): <strong>Cerca de 12%</strong></li>
+                    </ul>
 
-                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1 mt-4">4.3 CONTROLE INTEGRADO DE VETORES E PRAGAS URBANAS</h4>
-                    <p class="mb-4"><strong>4.3.1 a 4.3.3</strong> Ambiente totalmente livre de vetores/pragas com ações preventivas contínuas. Quando as medidas não forem eficazes, aplicar controle químico por empresa especializada regularizada pelo Ministério da Saúde. Adotar procedimentos pré e pós-tratamento para evitar a contaminação de equipamentos e alimentos (higienização rigorosa dos resíduos do tratamento).</p>
-
-                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1 mt-4">4.4 ABASTECIMENTO DE ÁGUA</h4>
-                    <p class="mb-4"><strong>4.4.1 a 4.4.4</strong> Uso exclusivo de água potável (laudos laboratoriais semestrais se for de fonte alternativa). Gelo e vapor em contato com o alimento produzidos com água potável. O reservatório de água deve ser íntegro, livre de defeitos, tampado e higienizado num intervalo máximo de seis meses (com registros).</p>
-
-                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1 mt-4">Disposições Gerais e Dimensionamento</h4>
-                    <p class="mb-4">As matérias-primas, ingredientes e embalagens devem ser armazenados sobre paletes, estrados e/ou prateleiras de material liso e lavável, respeitando o espaçamento mínimo necessário para garantir adequada ventilação e limpeza do local. O quantitativo de funcionários, equipamentos e móveis disponíveis deve ser perfeitamente compatível com o volume, diversidade e complexidade das preparações oferecidas.</p>
+                    <h4 class="font-bold text-rfm-dark mb-2 border-b pb-1">Planejamento de Setores em Hospitais</h4>
+                    <p class="mb-3">No planejamento em ambientes hospitalares, conforme Mezomo (2015), o dimensionamento varia conforme o tipo de distribuição das dietas:</p>
+                    <p class="mb-2"><strong>Distribuição Descentralizada (Área base: 1,80 m² por leito):</strong></p>
+                    <ul class="list-disc pl-5 mb-3 space-y-1 text-slate-700">
+                        <li>Recepção: 20%</li>
+                        <li>Preparo e Cocção: 50%</li>
+                        <li>Demais dependências: 30%</li>
+                    </ul>
+                    <p class="mb-2"><strong>Distribuição Centralizada (Área base: 2,0 m² por leito):</strong></p>
+                    <ul class="list-disc pl-5 mb-3 space-y-1 text-slate-700">
+                        <li>Recepção: 20%</li>
+                        <li>Preparo e Cocção: 45%</li>
+                        <li>Demais dependências: 35%</li>
+                    </ul>
                 `
             }
         ];
@@ -1093,7 +1218,6 @@
             const normsOnly = items.filter(item => item.type === 'norm');
 
             if(normsOnly.length === 0) {
-                // Se o grid for mostrar vazio, deixa oculto (a busca lida com os resultados)
                 return;
             }
 
@@ -1129,10 +1253,8 @@
                 return;
             }
 
-            // Oculta grid original durante a pesquisa
             gridContainer.classList.add('hidden');
 
-            // Filtrar banco (Normas e Seções)
             const matches = allSearchData.filter(item => {
                 const inTags = item.tags.some(tag => tag.includes(query));
                 const inTitle = item.titulo.toLowerCase().includes(query);
@@ -1140,7 +1262,6 @@
                 return inTags || inTitle || inText;
             });
 
-            // Atualizar lista de respostas
             resultsBox.classList.remove('hidden');
             resultsContainer.innerHTML = '';
 
@@ -1187,7 +1308,6 @@
             modalBody.innerHTML = itemData.texto;
             modal.classList.remove('hidden');
             
-            // Animação entrada
             setTimeout(() => {
                 modalContent.classList.remove('scale-95');
                 modalContent.classList.add('scale-100');
@@ -1202,7 +1322,6 @@
             }, 200);
         }
 
-        // Fechar modal clicando fora
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 closeModal();
@@ -1211,7 +1330,6 @@
 
         // --- SISTEMA DE GERAÇÃO DE RELATÓRIO ---
         
-        // Função de aviso/toast customizada para evitar alert()
         function showToast(message) {
             const toast = document.createElement('div');
             toast.className = 'fixed bottom-4 right-4 bg-rfm-dark text-white px-6 py-4 rounded-xl shadow-2xl transform transition-transform duration-300 translate-y-32 z-50 flex items-center gap-3 border border-rfm-blue/30';
@@ -1219,10 +1337,8 @@
             document.body.appendChild(toast);
             lucide.createIcons();
             
-            // Animate in
             setTimeout(() => toast.classList.remove('translate-y-32'), 10);
             
-            // Remove after 4s
             setTimeout(() => {
                 toast.classList.add('translate-y-32');
                 setTimeout(() => toast.remove(), 300);
@@ -1242,14 +1358,11 @@
             sections.forEach(sec => {
                 const checkbox = sec.querySelector('.report-checkbox');
                 const textarea = sec.querySelector('.report-textarea');
-                // Encontrar o título da seção (o primeiro h2 ou h3 serve)
                 let titleEl = sec.querySelector('h2');
                 
                 if (checkbox && checkbox.checked && textarea && textarea.value.trim() !== '') {
                     hasContent = true;
                     const title = titleEl ? titleEl.innerText : 'Anotações';
-                    
-                    // Tratamento para quebras de linha na exibição HTML
                     const textContent = textarea.value.replace(/\n/g, '<br>');
                     
                     reportHTML += `
@@ -1288,7 +1401,6 @@
                         }
                         @media print { 
                             body { padding: 0; margin: 0; max-width: 100%; } 
-                            /* Evita quebra de página dentro de uma seção do relatório */
                             div { page-break-inside: avoid; }
                         }
                     </style>
@@ -1299,7 +1411,6 @@
                         Baseado na RDC 216/2004 e 275/2002 | Criado por Rômulo F. Monteiro (@romulof.monteiro)
                     </div>
                     <script>
-                        // Aciona a impressão automaticamente quando carregar
                         setTimeout(() => { 
                             window.print(); 
                         }, 500);
